@@ -198,8 +198,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;background-im
       metadata: { user_id: user.id, plan: user.role },
       callback: async function(response) {
         // Save session immediately so webhook has time to process
-        sessionStorage.setItem('ghost_token', token);
-        sessionStorage.setItem('ghost_user', JSON.stringify(user));
+        GhostAuth.setSession(token, user);
         // Poll for payment confirmation (webhook may take a few seconds)
         let attempts = 0;
         const poll = setInterval(async () => {
@@ -224,8 +223,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;background-im
       },
       onClose: function() {
         // Payment window closed without completing — go to pending
-        sessionStorage.setItem('ghost_token', token);
-        sessionStorage.setItem('ghost_user', JSON.stringify(user));
+        GhostAuth.setSession(token, user);
         window.location.href = 'pending-payment.html';
       }
     });
@@ -244,8 +242,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;background-im
       const res  = await fetch('/api-login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email,password}) });
       const data = await res.json();
       if (!res.ok) { errEl.textContent = data.error; errEl.classList.add('show'); return; }
-      sessionStorage.setItem('ghost_token', data.token);
-      sessionStorage.setItem('ghost_user',  JSON.stringify(data.user));
+      GhostAuth.setSession(data.token, data.user);
       if (!data.user.payment_status) { window.location.href = 'pending-payment.html'; return; }
       const routes = { lone:'lone.html', team_4:'team4.html', team_10:'team10.html' };
       window.location.href = routes[data.user.role] || 'lone.html';
@@ -299,8 +296,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;background-im
         if (staffAttempts >= 5) btn.disabled = true;
         return;
       }
-      sessionStorage.setItem('ghost_token', data.token);
-      sessionStorage.setItem('ghost_user', JSON.stringify(data.user));
+      GhostAuth.setSession(data.token, data.user);
       window.location.href = 'admin.html';
     } catch(err) { errEl.textContent = 'Network error. Try again.'; errEl.classList.add('show'); }
     finally { btn.disabled = false; btn.textContent = 'Enter Admin Console'; }

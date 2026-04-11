@@ -1,13 +1,34 @@
 const GhostAuth = (() => {
   const ROUTES = { lone:'lone.html', team_4:'team4.html', team_10:'team10.html', admin:'admin.html' };
 
-  function getToken()   { return sessionStorage.getItem('ghost_token'); }
-  function getSession() { try { return JSON.parse(sessionStorage.getItem('ghost_user')); } catch { return null; } }
+  // Admin uses localStorage (persists across tabs/redirects)
+  // Players use sessionStorage (clears on tab close)
+  function getToken() {
+    return localStorage.getItem('ghost_token') || sessionStorage.getItem('ghost_token');
+  }
+  function getSession() {
+    try {
+      const s = localStorage.getItem('ghost_user') || sessionStorage.getItem('ghost_user');
+      return JSON.parse(s);
+    } catch { return null; }
+  }
+  function setSession(token, user) {
+    if (user.role === 'admin') {
+      localStorage.setItem('ghost_token', token);
+      localStorage.setItem('ghost_user', JSON.stringify(user));
+    } else {
+      sessionStorage.setItem('ghost_token', token);
+      sessionStorage.setItem('ghost_user', JSON.stringify(user));
+    }
+  }
 
-  // Logout on tab/window close
+  // Players logout on tab close, admins don't
   window.addEventListener('beforeunload', () => {
-    sessionStorage.removeItem('ghost_token');
-    sessionStorage.removeItem('ghost_user');
+    const user = getSession();
+    if (user && user.role !== 'admin') {
+      sessionStorage.removeItem('ghost_token');
+      sessionStorage.removeItem('ghost_user');
+    }
   });
 
   function gate(requiredRole) {
@@ -37,10 +58,12 @@ const GhostAuth = (() => {
   }
 
   function logout() {
+    localStorage.removeItem('ghost_token');
+    localStorage.removeItem('ghost_user');
     sessionStorage.removeItem('ghost_token');
     sessionStorage.removeItem('ghost_user');
     window.location.href = 'login.html';
   }
 
-  return { gate, getSession, getToken, logout, api };
+  return { gate, getSession, getToken, setSession, logout, api };
 })();
