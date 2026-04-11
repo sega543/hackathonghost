@@ -19,9 +19,9 @@ module.exports = async function handler(req, res) {
             u.payment_reference, u.payment_verified_at, u.created_at,
             t.name AS team_name,
             CASE u.role
-              WHEN 'lone'    THEN '₦1,500'
-              WHEN 'team_4'  THEN '₦5,000'
-              WHEN 'team_10' THEN '₦7,500'
+              WHEN 'lone'    THEN '₦2,500'
+              WHEN 'team_4'  THEN '₦10,000'
+              WHEN 'team_10' THEN '₦20,000'
             END AS amount
      FROM users u
      LEFT JOIN team_members tm ON tm.user_id = u.id

@@ -64,10 +64,19 @@
   document.getElementById('sb-name').textContent  = user.name;
   document.getElementById('hdr-name').textContent = user.name;
 
-  const activeRound = GhostAuth.getActiveRound();
-  document.getElementById('round-text').textContent = activeRound ? `Round ${activeRound.round_number} open · closes ${activeRound.closes_at}` : 'No active round right now';
-  document.getElementById('form-round').textContent = activeRound ? activeRound.round_number : '—';
-  document.getElementById('stat-round').textContent = activeRound ? `R${activeRound.round_number}` : '—';
+  let activeRound = null;
+
+  async function loadRound() {
+    try {
+      const rows = await fetch('/api-rounds').then(r => r.json());
+      activeRound = rows.find(r => r.is_active) || null;
+      document.getElementById('round-text').textContent = activeRound
+        ? `Round ${activeRound.round_number} open · closes ${new Date(activeRound.closes_at).toLocaleDateString()}`
+        : 'No active round right now';
+      document.getElementById('form-round').textContent  = activeRound ? activeRound.round_number : '—';
+      document.getElementById('stat-round').textContent  = activeRound ? `R${activeRound.round_number}` : '—';
+    } catch {}
+  }
 
   const lnk = u => u ? `<a href="${u}" target="_blank" style="color:var(--accent);font-size:.7rem">↗ view</a>` : '<span style="color:var(--muted)">—</span>';
 
@@ -104,7 +113,7 @@
     } catch { hBody.innerHTML = '<tr><td colspan="6" style="color:var(--a3)">Failed to load.</td></tr>'; }
   }
 
-  loadLeaderboard(); loadHistory();
+  loadLeaderboard(); loadHistory(); loadRound();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -112,7 +121,7 @@
     const btn = document.getElementById('submit-btn');
     btn.disabled = true; btn.textContent = 'Submitting...';
     try {
-      const res = await GhostAuth.api('/api-submissions.php', { method:'POST', body: JSON.stringify({
+      const res = await GhostAuth.api('/api-submissions', { method:'POST', body: JSON.stringify({
         user_id: user.id, round_number: activeRound.round_number,
         pdf_link: document.getElementById('pdf-link').value || null,
         github_link: document.getElementById('github-link').value,

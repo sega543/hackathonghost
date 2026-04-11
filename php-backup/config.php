@@ -1,4 +1,9 @@
 <?php
+// Suppress warnings from being output (they corrupt JSON responses)
+error_reporting(E_ALL);
+ini_set('display_errors', '0');
+ini_set('log_errors', '1');
+
 // ── LOAD .env FILE ────────────────────────────────────────────────────────
 $envFile = __DIR__ . '/.env';
 if (file_exists($envFile)) {
