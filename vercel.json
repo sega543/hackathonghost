@@ -1,18 +1,18 @@
 {
   "version": 2,
   "routes": [
-    { "src": "/api-login",              "dest": "/api-login.js" },
-    { "src": "/api-register",           "dest": "/api-register.js" },
-    { "src": "/api-me",                 "dest": "/api-me.js" },
-    { "src": "/api-leaderboard",        "dest": "/api-leaderboard.js" },
-    { "src": "/api-submissions",        "dest": "/api-submissions.js" },
-    { "src": "/api-team",               "dest": "/api-team.js" },
-    { "src": "/api-payment-status",     "dest": "/api-payment-status.js" },
-    { "src": "/api-verify-payment",     "dest": "/api-verify-payment.js" },
-    { "src": "/api-webhook",            "dest": "/api-webhook.js" },
-    { "src": "/api-rounds",             "dest": "/api-rounds.js" },
-    { "src": "/api-admin-contestants",  "dest": "/api-admin-contestants.js" },
-    { "src": "/api-admin-submissions",  "dest": "/api-admin-submissions.js" },
-    { "src": "/(.*)",                   "dest": "/$1" }
+    { "src": "/api-login",             "dest": "/api/api-login.js" },
+    { "src": "/api-register",          "dest": "/api/api-register.js" },
+    { "src": "/api-me",                "dest": "/api/api-me.js" },
+    { "src": "/api-leaderboard",       "dest": "/api/api-leaderboard.js" },
+    { "src": "/api-submissions",       "dest": "/api/api-submissions.js" },
+    { "src": "/api-team",              "dest": "/api/api-team.js" },
+    { "src": "/api-payment-status",    "dest": "/api/api-payment-status.js" },
+    { "src": "/api-verify-payment",    "dest": "/api/api-verify-payment.js" },
+    { "src": "/api-webhook",           "dest": "/api/api-webhook.js" },
+    { "src": "/api-rounds",            "dest": "/api/api-rounds.js" },
+    { "src": "/api-admin-contestants", "dest": "/api/api-admin-contestants.js" },
+    { "src": "/api-admin-submissions", "dest": "/api/api-admin-submissions.js" },
+    { "src": "/(.*)",                  "dest": "/$1" }
   ]
 }
