@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin — Ghost Protocol · FLINN Software Labs</title>
+<link rel="stylesheet" href="shared.css"/>
+<style>
+.tab-bar{display:flex;border-bottom:1px solid var(--border);margin-bottom:1.5rem;}
+.tab-btn{padding:.6rem 1.25rem;font-family:inherit;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;background:transparent;border:none;border-bottom:2px solid transparent;color:var(--muted);cursor:pointer;transition:all .15s;}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+.tab-panel{display:none;}.tab-panel.active{display:block;}
+.verify-btn{background:transparent;border:1px solid var(--accent);color:var(--accent);padding:.25rem .6rem;font-family:inherit;font-size:.62rem;letter-spacing:.1em;cursor:pointer;transition:all .15s;}
+.verify-btn:hover{background:var(--accent);color:var(--bg);}
+.verify-btn:disabled{opacity:.3;cursor:default;}
+.score-row{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;}
+.save-score-btn{background:var(--accent2);color:#fff;border:none;padding:.3rem .8rem;font-family:inherit;font-size:.68rem;letter-spacing:.1em;cursor:pointer;transition:all .15s;}
+.save-score-btn:hover{box-shadow:var(--glow2);}
+.community-section{border:1px solid var(--border);padding:1.25rem;margin-bottom:1rem;background:var(--surface2);}
+.community-section h3{font-size:.82rem;margin-bottom:.5rem;}
+.community-section p{font-size:.75rem;color:var(--muted);line-height:1.6;}
+.admin-badge{display:inline-block;background:rgba(255,45,120,.1);border:1px solid var(--accent3);color:var(--accent3);font-size:.6rem;letter-spacing:.2em;padding:.15rem .5rem;text-transform:uppercase;margin-left:.5rem;}
+.filter-row{display:flex;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap;}
+.filter-row select,.filter-row input{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.4rem .7rem;font-family:inherit;font-size:.75rem;outline:none;}
+.filter-row select:focus,.filter-row input:focus{border-color:var(--accent);}
+.score-input{width:80px;background:var(--surface2);border:1px solid var(--border);color:var(--accent);padding:.3rem .5rem;font-family:inherit;font-size:.85rem;font-weight:700;text-align:center;outline:none;}
+.score-input:focus{border-color:var(--accent);}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="sidebar-logo">GHOST<span>://</span>PROTOCOL</div>
+  <div class="sidebar-user"><strong id="sb-name">—</strong><span class="role-badge" style="border-color:var(--accent3);color:var(--accent3)">Admin</span></div>
+  <nav>
+    <a href="#" onclick="switchTab('contestants')" id="nav-contestants" class="active">⬡ Contestants</a>
+    <a href="#" onclick="switchTab('payments')"    id="nav-payments">◈ Payments</a>
+    <a href="#" onclick="switchTab('scoring')"     id="nav-scoring">✦ Scoring</a>
+    <a href="#" onclick="switchTab('leaderboard')" id="nav-leaderboard">◎ Leaderboard</a>
+    <a href="#" onclick="switchTab('community')"   id="nav-community">⊕ Community Tasks</a>
+  </nav>
+  <div class="sidebar-footer"><button class="btn-logout" onclick="GhostAuth.logout()">⏻ Disconnect</button></div>
+</aside>
+<main class="main">
+  <div class="page-header">
+    <p class="page-tag">Admin Console</p>
+    <h1>FLINN Software Labs <span class="admin-badge">ADMIN</span></h1>
+    <p>Ghost Protocol Hackathon · July 1–31, 2026</p>
+  </div>
+  <div class="stats-row">
+    <div class="stat-tile"><div class="val green"  id="st-total">—</div><div class="lbl">Total Contestants</div></div>
+    <div class="stat-tile"><div class="val purple" id="st-paid">—</div><div class="lbl">Payments Verified</div></div>
+    <div class="stat-tile"><div class="val"        id="st-subs">—</div><div class="lbl">Total Submissions</div></div>
+    <div class="stat-tile"><div class="val pink"   id="st-pending">—</div><div class="lbl">Pending Payment</div></div>
+  </div>
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('contestants')"  id="tab-contestants">Contestants</button>
+    <button class="tab-btn"        onclick="switchTab('payments')"     id="tab-payments">Payments</button>
+    <button class="tab-btn"        onclick="switchTab('scoring')"      id="tab-scoring">Scoring</button>
+    <button class="tab-btn"        onclick="switchTab('leaderboard')"  id="tab-leaderboard">Leaderboard</button>
+    <button class="tab-btn"        onclick="switchTab('community')"    id="tab-community">Community Tasks</button>
+  </div>
+
+  <div class="tab-panel active" id="panel-contestants">
+    <div class="card" style="margin-bottom:0">
+      <div class="card-title">All Contestants & Teams</div>
+      <div class="filter-row">
+        <select id="filter-role" onchange="renderContestants()"><option value="">All Roles</option><option value="lone">Lone</option><option value="team_4">Team of 4</option><option value="team_10">Team of 10</option></select>
+        <select id="filter-payment" onchange="renderContestants()"><option value="">All Payments</option><option value="true">Verified</option><option value="false">Pending</option></select>
+        <input type="text" id="filter-search" placeholder="Search name / email..." oninput="renderContestants()"/>
+      </div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Role</th><th>Team</th><th>Payment</th><th>Joined</th></tr></thead>
+        <tbody id="contestants-body"></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="panel-payments">
+    <div class="card" style="margin-bottom:0">
+      <div class="card-title">Paystack Transactions</div>
+      <p style="font-size:.75rem;color:var(--muted);margin-bottom:1rem">Auto-verified via webhook. Use manual verify only if webhook failed.</p>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Reference</th><th>Amount</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="payments-body"></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="panel-scoring">
+    <div class="card" style="margin-bottom:1rem">
+      <div class="card-title">Score Submissions by Round</div>
+      <div class="filter-row">
+        <select id="score-round-filter" onchange="renderScoring()"><option value="">All Rounds</option></select>
+        <select id="score-role-filter" onchange="renderScoring()"><option value="">All Tracks</option><option value="lone">Lone</option><option value="team_4">Team of 4</option><option value="team_10">Team of 10</option></select>
+      </div>
+    </div>
+    <div id="scoring-list"></div>
+  </div>
+
+  <div class="tab-panel" id="panel-leaderboard">
+    <div class="card" style="margin-bottom:0">
+      <div class="card-title">Full Leaderboard (All Tracks)</div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Rank</th><th>Entity</th><th>Type</th><th>Total Score</th><th>Last Updated</th></tr></thead>
+        <tbody id="lb-body"></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="panel-community">
+    <div class="card">
+      <div class="card-title">Community Tasks Toggle</div>
+      <p style="font-size:.78rem;color:var(--muted);margin-bottom:1.25rem">Display-only challenges. No score impact. Toggle visibility for participants.</p>
+      <div id="community-tasks-list"></div>
+      <button class="btn btn-outline btn-sm" style="margin-top:1rem" onclick="addCommunityTask()">+ Add Task</button>
+    </div>
+  </div>
+</main>
+<div id="toast"></div>
+<script src="middleware.js"></script>
+<script>
+  const user = GhostAuth.gate('admin');
+  if (!user || user.role !== 'admin') { window.location.href = 'login.html'; throw new Error('blocked'); }
+  document.getElementById('sb-name').textContent = user.name;
+
+  let CONTESTANTS = [], SUBMISSIONS = [], LEADERBOARD = [];
+  let COMMUNITY_TASKS = [
+    { id:1, title:'Write a ZK-Proof explainer thread', description:'Post a public Twitter/X thread explaining ZK-Proofs to a non-technical audience.', visible:true },
+    { id:2, title:'Open Source Contribution', description:'Submit a PR to any open-source privacy project. Share the link in Discord.', visible:false },
+    { id:3, title:'Peer Code Review', description:"Review another team's public repo and leave constructive feedback.", visible:true },
+  ];
+
+  async function loadAll() {
+    await Promise.all([loadContestants(), loadSubmissions(), loadLeaderboardData()]);
+  }
+
+  async function loadContestants() {
+    try {
+      const res = await GhostAuth.api('/api-admin-contestants.php');
+      CONTESTANTS = await res.json();
+      document.getElementById('st-total').textContent   = CONTESTANTS.length;
+      document.getElementById('st-paid').textContent    = CONTESTANTS.filter(c => c.payment_status).length;
+      document.getElementById('st-pending').textContent = CONTESTANTS.filter(c => !c.payment_status).length;
+      renderContestants(); renderPayments();
+    } catch { showToast('Failed to load contestants'); }
+  }
+
+  async function loadSubmissions() {
+    try {
+      const res = await GhostAuth.api('/api-admin-submissions.php');
+      SUBMISSIONS = await res.json();
+      document.getElementById('st-subs').textContent = SUBMISSIONS.length;
+      renderScoring();
+    } catch { showToast('Failed to load submissions'); }
+  }
+
+  async function loadLeaderboardData() {
+    try {
+      const rows = await fetch('/api-leaderboard?type=all').then(r => r.json());
+      LEADERBOARD = rows; renderLeaderboard();
+    } catch { showToast('Failed to load leaderboard'); }
+  }
+
+  // Seed round filter
+  const sel = document.getElementById('score-round-filter');
+  for (let i = 1; i <= 11; i++) sel.innerHTML += `<option value="${i}">Round ${i}</option>`;
+
+  loadAll();
+
+  function switchTab(name) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('[id^="nav-"]').forEach(a => a.classList.remove('active'));
+    document.getElementById('panel-' + name).classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+    const nav = document.getElementById('nav-' + name);
+    if (nav) nav.classList.add('active');
+  }
+
+  function renderContestants() {
+    const roleF = document.getElementById('filter-role').value;
+    const payF  = document.getElementById('filter-payment').value;
+    const srch  = document.getElementById('filter-search').value.toLowerCase();
+    const filtered = CONTESTANTS.filter(c =>
+      (!roleF || c.role === roleF) &&
+      (!payF  || String(c.payment_status) === payF) &&
+      (!srch  || c.name.toLowerCase().includes(srch) || c.email.toLowerCase().includes(srch)));
+    const body = document.getElementById('contestants-body');
+    body.innerHTML = filtered.length ? filtered.map((c,i) => `<tr>
+      <td style="color:var(--muted)">${i+1}</td><td>${c.name}</td>
+      <td style="color:var(--muted)">${c.email}</td>
+      <td><span class="badge ${c.role==='lone'?'badge-green':c.role==='team_4'?'badge-purple':'badge-muted'}">${c.role}</span></td>
+      <td style="color:var(--muted)">${c.team_name||'—'}</td>
+      <td>${c.payment_status?'<span class="badge badge-green">Verified</span>':'<span class="badge badge-red">Pending</span>'}</td>
+      <td style="color:var(--muted)">${new Date(c.created_at).toLocaleDateString()}</td></tr>`).join('')
+      : '<tr><td colspan="7" style="color:var(--muted)">No contestants yet.</td></tr>';
+  }
+
+  function renderPayments() {
+    const body = document.getElementById('payments-body');
+    body.innerHTML = CONTESTANTS.length ? CONTESTANTS.map(c => `<tr>
+      <td>${c.name}</td><td style="color:var(--muted)">${c.email}</td>
+      <td><span class="badge ${c.role==='lone'?'badge-green':c.role==='team_4'?'badge-purple':'badge-muted'}">${c.role}</span></td>
+      <td style="color:var(--muted);font-size:.7rem">${c.payment_reference||'—'}</td>
+      <td>${c.amount||'—'}</td>
+      <td>${c.payment_status?'<span class="badge badge-green">Verified</span>':'<span class="badge badge-red">Pending</span>'}</td>
+      <td><button class="verify-btn" ${c.payment_status?'disabled':''} onclick="manualVerify('${c.id}','${c.payment_reference}',this)">${c.payment_status?'Verified':'Verify'}</button></td>
+    </tr>`).join('') : '<tr><td colspan="7" style="color:var(--muted)">No data yet.</td></tr>';
+  }
+
+  async function manualVerify(userId, ref, btn) {
+    if (!ref || ref === 'null') { showToast('No payment reference on record.'); return; }
+    if (!confirm(`Manually verify payment for ref: ${ref}?`)) return;
+    btn.textContent = '...'; btn.disabled = true;
+    try {
+      const res = await GhostAuth.api('/api-verify-payment.php', { method:'POST', body: JSON.stringify({reference:ref}) });
+      if (!res.ok) { const e = await res.json(); throw new Error(e.error); }
+      const c = CONTESTANTS.find(x => x.id === userId);
+      if (c) c.payment_status = true;
+      showToast('Payment verified: ' + ref);
+      renderContestants(); renderPayments();
+    } catch(err) { showToast('Error: ' + err.message); btn.textContent = 'Verify'; btn.disabled = false; }
+  }
+
+  function renderScoring() {
+    const roundF = document.getElementById('score-round-filter').value;
+    const roleF  = document.getElementById('score-role-filter').value;
+    const filtered = SUBMISSIONS.filter(s =>
+      (!roundF || String(s.round_number) === roundF) && (!roleF || s.role === roleF));
+    const list = document.getElementById('scoring-list');
+    if (!filtered.length) { list.innerHTML = '<p style="color:var(--muted);font-size:.8rem">No submissions match filter.</p>'; return; }
+    const lnk = url => url ? `<a href="${url}" target="_blank" style="color:var(--accent);font-size:.7rem">↗</a>` : '<span style="color:var(--muted)">—</span>';
+    list.innerHTML = filtered.map(s => `
+      <div class="card" style="margin-bottom:1rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;flex-wrap:wrap;gap:.5rem">
+          <div>
+            <span style="font-size:.85rem;font-weight:700">${s.name}</span>
+            <span class="badge ${s.role==='lone'?'badge-green':s.role==='team_4'?'badge-purple':'badge-muted'}" style="margin-left:.5rem">${s.role}</span>
+            <span style="color:var(--muted);font-size:.72rem;margin-left:.5rem">Round ${s.round_number}</span>
+          </div>
+          <div class="score-row">
+            <label style="font-size:.65rem;color:var(--muted);letter-spacing:.1em">SCORE (0–100)</label>
+            <input class="score-input" type="number" min="0" max="100" step="0.5" value="${s.score!==null?s.score:''}" placeholder="—" id="score-${s.id}"/>
+            <button class="save-score-btn" onclick="saveScore('${s.id}')">Save</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:1.5rem;font-size:.75rem;color:var(--muted)">
+          <span>PDF ${lnk(s.pdf_link)}</span><span>GitHub ${lnk(s.github_link)}</span><span>YouTube ${lnk(s.youtube_link)}</span>
+        </div>
+      </div>`).join('');
+  }
+
+  async function saveScore(subId) {
+    const input = document.getElementById('score-' + subId);
+    const val   = parseFloat(input.value);
+    if (isNaN(val) || val < 0 || val > 100) { showToast('Score must be 0–100'); return; }
+    try {
+      const res = await GhostAuth.api('/api-admin-submissions.php', { method:'PATCH', body: JSON.stringify({id:subId,score:val}) });
+      if (!res.ok) { const e = await res.json(); throw new Error(e.error); }
+      const sub = SUBMISSIONS.find(s => s.id === subId);
+      if (sub) sub.score = val;
+      showToast('Score saved');
+      input.style.borderColor = 'var(--accent)';
+      setTimeout(() => input.style.borderColor = '', 1500);
+      loadLeaderboardData();
+    } catch(err) { showToast('Error: ' + err.message); }
+  }
+
+  function renderLeaderboard() {
+    const body = document.getElementById('lb-body');
+    body.innerHTML = LEADERBOARD.length ? LEADERBOARD.map(row => `<tr>
+      <td class="rank-num">${row.rank}</td><td>${row.display_name}</td>
+      <td><span class="badge ${row.entity_type==='user'?'badge-green':'badge-purple'}">${row.entity_type}</span></td>
+      <td class="green">${row.total_score}</td>
+      <td style="color:var(--muted)">${new Date(row.last_updated).toLocaleDateString()}</td></tr>`).join('')
+      : '<tr><td colspan="5" style="color:var(--muted)">No scores yet.</td></tr>';
+  }
+
+  function renderCommunityTasks() {
+    document.getElementById('community-tasks-list').innerHTML = COMMUNITY_TASKS.map(task => `
+      <div class="community-section">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap">
+          <div><h3>${task.title}</h3><p>${task.description}</p></div>
+          <div class="toggle-wrap" style="flex-shrink:0">
+            <label class="toggle"><input type="checkbox" ${task.visible?'checked':''} onchange="toggleTask(${task.id},this.checked)"/><span class="toggle-slider"></span></label>
+            <span class="toggle-label">${task.visible?'Visible':'Hidden'}</span>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+  renderCommunityTasks();
+
+  function toggleTask(id, visible) {
+    const task = COMMUNITY_TASKS.find(t => t.id === id);
+    if (task) task.visible = visible;
+    showToast(`Task "${task?.title}" ${visible?'shown':'hidden'}`);
+    renderCommunityTasks();
+  }
+
+  function addCommunityTask() {
+    const title = prompt('Task title:');
+    if (!title) return;
+    const desc = prompt('Task description:');
+    COMMUNITY_TASKS.push({ id: Date.now(), title, description: desc||'', visible:true });
+    renderCommunityTasks();
+    showToast('Community task added');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast'); t.textContent = msg;
+    t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000);
+  }
+</script>
+</body>
+</html>
