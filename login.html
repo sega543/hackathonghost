@@ -138,7 +138,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;background-im
 
 <script src="https://js.paystack.co/v1/inline.js"></script>
 <script>
-  const PRICES = { lone: 250000, team_4: 1000000, team_10: 2000000 }; // kobo
+  const PRICES = { lone: 10000, team_4: 1000000, team_10: 2000000 }; // kobo (lone = ₦100 for testing)
   let selectedType = 'lone';
   let staffAttempts = 0;
   let _pendingUser = null; // holds user data while Paystack is open
