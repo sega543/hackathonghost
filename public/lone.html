@@ -63,6 +63,8 @@ const GhostAuth = (() => {
   function getToken() { return localStorage.getItem('ghost_token') || sessionStorage.getItem('ghost_token'); }
   function getSession() { try { const s = localStorage.getItem('ghost_user') || sessionStorage.getItem('ghost_user'); return JSON.parse(s); } catch { return null; } }
   function setSession(token, user) {
+    localStorage.removeItem('ghost_token'); localStorage.removeItem('ghost_user');
+    sessionStorage.removeItem('ghost_token'); sessionStorage.removeItem('ghost_user');
     if (user.role === 'admin') { localStorage.setItem('ghost_token', token); localStorage.setItem('ghost_user', JSON.stringify(user)); }
     else { sessionStorage.setItem('ghost_token', token); sessionStorage.setItem('ghost_user', JSON.stringify(user)); }
   }
