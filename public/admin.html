@@ -292,10 +292,8 @@
           Opens: ${opens.toLocaleString()} &nbsp;·&nbsp; Closes: ${closes.toLocaleString()}
         </div>
         <span class="round-status ${status}">${label}</span>
-        ${!isPast ? `
-          ${!isOpen ? `<button class="open-btn" onclick="openRound(${r.round_number})">Open Now</button>` : ''}
-          ${isOpen  ? `<button class="close-btn" onclick="closeRound(${r.round_number})">Close Now</button>` : ''}
-        ` : ''}
+        ${!isOpen ? `<button class="open-btn" onclick="openRound(${r.round_number})">Open Now</button>` : ''}
+        ${isOpen  ? `<button class="close-btn" onclick="closeRound(${r.round_number})">Close Now</button>` : ''}
       </div>`;
     }).join('');
   }
