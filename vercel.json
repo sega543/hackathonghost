@@ -1,5 +1,13 @@
 {
   "version": 2,
+  "headers": [
+    {
+      "source": "/(.*\\.html)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
+      ]
+    }
+  ],
   "routes": [
     { "src": "/api-login",             "dest": "/api/api-login.js" },
     { "src": "/api-register",          "dest": "/api/api-register.js" },
