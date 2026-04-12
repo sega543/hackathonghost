@@ -145,7 +145,6 @@ const GhostAuth = (() => {
     if (user.role === 'admin') { localStorage.setItem('ghost_token', token); localStorage.setItem('ghost_user', JSON.stringify(user)); }
     else { sessionStorage.setItem('ghost_token', token); sessionStorage.setItem('ghost_user', JSON.stringify(user)); }
   }
-  window.addEventListener('beforeunload', () => { const user = getSession(); if (user && user.role !== 'admin') { sessionStorage.removeItem('ghost_token'); sessionStorage.removeItem('ghost_user'); } });
   function gate(requiredRole) {
     const token = getToken(); const user = getSession();
     if (!token || !user) { window.location.href = 'login.html'; return null; }
