@@ -8,12 +8,6 @@
         { "key": "Pragma", "value": "no-cache" },
         { "key": "Expires", "value": "0" }
       ]
-    },
-    {
-      "source": "/middleware.js",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
-      ]
     }
   ],
   "routes": [
@@ -29,6 +23,8 @@
     { "src": "/api-rounds",            "dest": "/api/api-rounds.js" },
     { "src": "/api-admin-contestants", "dest": "/api/api-admin-contestants.js" },
     { "src": "/api-admin-submissions", "dest": "/api/api-admin-submissions.js" },
+    { "src": "/middleware.js",         "dest": "/middleware.js" },
+    { "src": "/shared.css",            "dest": "/shared.css" },
     { "src": "/(.*)",                  "dest": "/$1" }
   ]
 }
