@@ -8,7 +8,7 @@ module.exports = async function handler(req, res) {
   const { type } = req.query;
   const conditions = ["(u.role IS NULL OR u.role != 'admin')"];
   const params = [];
-  if (type && type !== 'all') { params.push(type); conditions.push(`lb.entity_type = $${params.length}`); }
+  if (type && type !== 'all') { params.push(type); conditions.push('lb.entity_type = $' + params.length); }
   const { rows } = await pool.query(
     `SELECT lb.rank, lb.entity_type, lb.entity_id, lb.total_score, lb.last_updated,
             COALESCE(u.name, t.name) AS display_name
