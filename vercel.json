@@ -13,7 +13,6 @@
     { "src": "/api-rounds",            "dest": "/api/api-rounds.js" },
     { "src": "/api-admin-contestants", "dest": "/api/api-admin-contestants.js" },
     { "src": "/api-admin-submissions", "dest": "/api/api-admin-submissions.js" },
-    { "src": "/api-admin-verify-user", "dest": "/api/api-admin-verify-user.js" },
     { "src": "/(.*)",                  "dest": "/$1" }
   ]
 }
