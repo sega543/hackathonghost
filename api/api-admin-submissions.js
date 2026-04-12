@@ -19,8 +19,8 @@ module.exports = async function handler(req, res) {
   if (req.method === 'GET') {
     const { round, role } = req.query;
     const conditions = [], params = [];
-    if (round) { params.push(round); conditions.push(`s.round_number = $${params.length}`); }
-    if (role)  { params.push(role);  conditions.push(`u.role = $${params.length}`); }
+    if (round) { params.push(round); conditions.push('s.round_number = $' + params.length); }
+    if (role)  { params.push(role);  conditions.push('u.role = $' + params.length); }
     const where = conditions.length ? 'WHERE ' + conditions.join(' AND ') : '';
     const { rows } = await pool.query(
       `SELECT s.id, s.round_number, s.pdf_link, s.github_link, s.youtube_link,
@@ -35,7 +35,7 @@ module.exports = async function handler(req, res) {
   if (req.method === 'PATCH') {
     const { id, score } = req.body;
     if (!id || score === undefined) return res.status(400).json({ error: 'id and score required' });
-    if (score < 0 || score > 100) return res.status(400).json({ error: 'Score must be 0–100' });
+    if (score < 0 || score > 100) return res.status(400).json({ error: 'Score must be 0-100' });
     const { rows } = await pool.query(
       'UPDATE submissions SET score=$1, scored_at=NOW() WHERE id=$2 RETURNING *', [score, id]);
     if (!rows.length) return res.status(404).json({ error: 'Submission not found' });
