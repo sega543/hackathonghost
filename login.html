@@ -224,35 +224,28 @@ const GhostAuth = (() => {
       email: user.email,
       amount: PRICES[user.role] || 250000,
       currency: 'NGN',
-      ref,
+      ref: ref,
       metadata: { user_id: user.id, plan: user.role },
-      callback: async function(response) {
-        // Save session immediately so webhook has time to process
+      callback: function(response) {
         GhostAuth.setSession(token, user);
-        // Poll for payment confirmation (webhook may take a few seconds)
         let attempts = 0;
-        const poll = setInterval(async () => {
+        const poll = setInterval(function() {
           attempts++;
-          try {
-            const r = await fetch('/api-payment-status', { headers: { Authorization: `Bearer ${token}` } });
-            const d = await r.json();
-            if (d.payment_status) {
-              clearInterval(poll);
-              const updated = { ...user, payment_status: true };
-              sessionStorage.setItem('ghost_user', JSON.stringify(updated));
-              const routes = { lone:'lone.html', team_4:'team4.html', team_10:'team10.html' };
-              window.location.href = routes[user.role] || 'lone.html';
-            }
-          } catch {}
-          if (attempts >= 10) {
-            clearInterval(poll);
-            // Redirect to pending page as fallback
-            window.location.href = 'pending-payment.html';
-          }
+          fetch('/api-payment-status', { headers: { Authorization: 'Bearer ' + token } })
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+              if (d.payment_status) {
+                clearInterval(poll);
+                const updated = Object.assign({}, user, { payment_status: true });
+                sessionStorage.setItem('ghost_user', JSON.stringify(updated));
+                const routes = { lone:'lone.html', team_4:'team4.html', team_10:'team10.html' };
+                window.location.href = routes[user.role] || 'lone.html';
+              }
+            }).catch(function() {});
+          if (attempts >= 10) { clearInterval(poll); window.location.href = 'pending-payment.html'; }
         }, 2000);
       },
       onClose: function() {
-        // Payment window closed without completing — go to pending
         GhostAuth.setSession(token, user);
         window.location.href = 'pending-payment.html';
       }
