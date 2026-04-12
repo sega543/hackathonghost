@@ -1,29 +1,19 @@
 {
   "version": 2,
-  "functions": {
-    "api/*.js": { "runtime": "nodejs18.x" }
-  },
-  "rewrites": [
-    { "source": "/api-login",             "destination": "/api/api-login.js" },
-    { "source": "/api-register",          "destination": "/api/api-register.js" },
-    { "source": "/api-me",                "destination": "/api/api-me.js" },
-    { "source": "/api-leaderboard",       "destination": "/api/api-leaderboard.js" },
-    { "source": "/api-submissions",       "destination": "/api/api-submissions.js" },
-    { "source": "/api-team",              "destination": "/api/api-team.js" },
-    { "source": "/api-payment-status",    "destination": "/api/api-payment-status.js" },
-    { "source": "/api-verify-payment",    "destination": "/api/api-verify-payment.js" },
-    { "source": "/api-webhook",           "destination": "/api/api-webhook.js" },
-    { "source": "/api-rounds",            "destination": "/api/api-rounds.js" },
-    { "source": "/api-admin-contestants", "destination": "/api/api-admin-contestants.js" },
-    { "source": "/api-admin-submissions", "destination": "/api/api-admin-submissions.js" },
-    { "source": "/api-admin-verify-user", "destination": "/api/api-admin-verify-user.js" }
-  ],
-  "headers": [
-    {
-      "source": "/(.*\\.html)",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
-      ]
-    }
+  "routes": [
+    { "src": "/api-login",             "dest": "/api/api-login.js" },
+    { "src": "/api-register",          "dest": "/api/api-register.js" },
+    { "src": "/api-me",                "dest": "/api/api-me.js" },
+    { "src": "/api-leaderboard",       "dest": "/api/api-leaderboard.js" },
+    { "src": "/api-submissions",       "dest": "/api/api-submissions.js" },
+    { "src": "/api-team",              "dest": "/api/api-team.js" },
+    { "src": "/api-payment-status",    "dest": "/api/api-payment-status.js" },
+    { "src": "/api-verify-payment",    "dest": "/api/api-verify-payment.js" },
+    { "src": "/api-webhook",           "dest": "/api/api-webhook.js" },
+    { "src": "/api-rounds",            "dest": "/api/api-rounds.js" },
+    { "src": "/api-admin-contestants", "dest": "/api/api-admin-contestants.js" },
+    { "src": "/api-admin-submissions", "dest": "/api/api-admin-submissions.js" },
+    { "src": "/api-admin-verify-user", "dest": "/api/api-admin-verify-user.js" },
+    { "src": "/(.*)",                  "dest": "/$1" }
   ]
 }
