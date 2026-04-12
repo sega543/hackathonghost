@@ -57,7 +57,7 @@
   </div>
 </main>
 <div id="toast"></div>
-<script src="middleware.js"></script>
+<script src="ghost-auth.js"></script>
 <script>
   const user = GhostAuth.gate('lone');
   if (!user) throw new Error('blocked');

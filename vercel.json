@@ -32,7 +32,7 @@
     { "src": "/team10.html",           "dest": "/public/team10.html" },
     { "src": "/admin.html",            "dest": "/public/admin.html" },
     { "src": "/pending-payment.html",  "dest": "/public/pending-payment.html" },
-    { "src": "/middleware.js",         "dest": "/public/middleware.js" },
+    { "src": "/ghost-auth.js",         "dest": "/public/ghost-auth.js" },
     { "src": "/shared.css",            "dest": "/public/shared.css" }
   ]
 }
