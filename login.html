@@ -246,7 +246,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;background-im
       if (!data.user.payment_status) { window.location.href = 'pending-payment.html'; return; }
       const routes = { lone:'lone.html', team_4:'team4.html', team_10:'team10.html' };
       window.location.href = routes[data.user.role] || 'lone.html';
-    } catch(err) { errEl.textContent = 'Network error. Try again.'; errEl.classList.add('show'); }
+    } catch(err) { errEl.textContent = 'Error: ' + err.message; errEl.classList.add('show'); }
     finally { btn.disabled = false; btn.textContent = 'Enter System'; }
   }
 
@@ -271,7 +271,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;background-im
       btn.textContent = 'Awaiting payment...';
       // Fire Paystack immediately
       openPaystack(data.user, data.token);
-    } catch(err) { errEl.textContent = 'Network error. Try again.'; errEl.classList.add('show'); btn.disabled = false; btn.textContent = 'Create Account'; }
+    } catch(err) { errEl.textContent = 'Error: ' + err.message; errEl.classList.add('show'); btn.disabled = false; btn.textContent = 'Create Account'; }
   }
 
   async function staffLogin() {
@@ -298,7 +298,7 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;background-im
       }
       GhostAuth.setSession(data.token, data.user);
       window.location.href = 'admin.html';
-    } catch(err) { errEl.textContent = 'Network error. Try again.'; errEl.classList.add('show'); }
+    } catch(err) { errEl.textContent = 'Error: ' + err.message; errEl.classList.add('show'); }
     finally { btn.disabled = false; btn.textContent = 'Enter Admin Console'; }
   }
 
