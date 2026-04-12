@@ -252,6 +252,16 @@
   .blink { animation: blink 1s step-end infinite; }
   @keyframes blink { 50% { opacity: 0; } }
 
+  /* ── RESOURCE LINKS ── */
+  .res-link {
+    display: block; text-decoration: none;
+    padding: .75rem; border: 1px solid var(--border);
+    transition: border-color .15s, background .15s;
+  }
+  .res-link:hover { border-color: var(--accent); background: rgba(0,255,157,.04); }
+  .res-title { display: block; font-size: .8rem; font-weight: 700; color: var(--accent); margin-bottom: .3rem; }
+  .res-desc  { display: block; font-size: .72rem; color: var(--muted); line-height: 1.6; }
+
   /* ── FAQ ── */
   .faq-item {
     border: 1px solid var(--border);
@@ -286,6 +296,7 @@
   <div style="display:flex;gap:1.5rem;align-items:center">
     <a href="#hack" style="color:var(--muted);text-decoration:none;font-size:.75rem;letter-spacing:.1em">Challenge</a>
     <a href="#judging" style="color:var(--muted);text-decoration:none;font-size:.75rem;letter-spacing:.1em">Judging</a>
+    <a href="#resources" style="color:var(--muted);text-decoration:none;font-size:.75rem;letter-spacing:.1em">Resources</a>
     <a href="#prizes" style="color:var(--muted);text-decoration:none;font-size:.75rem;letter-spacing:.1em">Prizes</a>
     <a href="#faq" style="color:var(--muted);text-decoration:none;font-size:.75rem;letter-spacing:.1em">FAQ</a>
     <a href="login.html" class="nav-cta">Onboard Now</a>
@@ -498,6 +509,113 @@
     <p style="margin-top:2rem;font-size:0.75rem;color:var(--muted);">
       * Additional runner-up prizes, swag, and FLINN Labs internship fast-tracks available across all categories.
     </p>
+  </div>
+</section>
+
+<!-- RESOURCES -->
+<section id="resources" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <p class="section-tag">Resources</p>
+    <h2>Everything you need to <span class="accent">build well.</span></h2>
+    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:0.9rem;margin-bottom:3rem;">
+      Curated documentation, papers, and toolkits. Start here before you write a single line of circuit code.
+    </p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem">
+
+      <!-- ZK Fundamentals -->
+      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
+        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem">ZK Fundamentals</p>
+        <div style="display:flex;flex-direction:column;gap:.75rem">
+          <a href="https://docs.zksync.io/zksync-protocol/era-vm/circuits" target="_blank" class="res-link">
+            <span class="res-title">ZKsync Circuit Architecture</span>
+            <span class="res-desc">How ZKsync builds EVM-replicating circuits using Boojum. Essential reading for understanding ZK circuit design.</span>
+          </a>
+          <a href="https://vitalik.eth.limo/general/2019/09/22/plonk.html" target="_blank" class="res-link">
+            <span class="res-title">Understanding PLONK — Vitalik Buterin</span>
+            <span class="res-desc">The definitive blog post on PLONK arithmetization. Read this before touching any ZK proof system.</span>
+          </a>
+          <a href="https://z.cash/technology/zksnarks/" target="_blank" class="res-link">
+            <span class="res-title">zkSNARKs Explained — Zcash</span>
+            <span class="res-desc">Clear, accessible introduction to zkSNARKs from the team that pioneered privacy-preserving transactions.</span>
+          </a>
+          <a href="https://starkware.co/stark-101/" target="_blank" class="res-link">
+            <span class="res-title">STARK 101 — StarkWare</span>
+            <span class="res-desc">Hands-on introduction to STARKs with Python. Great for understanding proof systems from first principles.</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ZK Toolkits -->
+      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
+        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem">ZK Toolkits & Frameworks</p>
+        <div style="display:flex;flex-direction:column;gap:.75rem">
+          <a href="https://docs.circom.io" target="_blank" class="res-link">
+            <span class="res-title">Circom Documentation</span>
+            <span class="res-desc">The most widely used ZK circuit language. Write circuits in Circom, generate proofs with snarkjs. Beginner-friendly.</span>
+          </a>
+          <a href="https://noir-lang.org/docs" target="_blank" class="res-link">
+            <span class="res-title">Noir Language Docs</span>
+            <span class="res-desc">Aztec's Rust-like ZK language. Cleaner syntax than Circom, excellent for building privacy applications.</span>
+          </a>
+          <a href="https://dev.risczero.com/api" target="_blank" class="res-link">
+            <span class="res-title">RISC Zero Developer Docs</span>
+            <span class="res-desc">Write ZK proofs in standard Rust. No circuit DSL needed — prove arbitrary Rust programs with zkVM.</span>
+          </a>
+          <a href="https://docs.aztec.network" target="_blank" class="res-link">
+            <span class="res-title">Aztec Network Docs</span>
+            <span class="res-desc">Privacy-first smart contract platform. Build private DeFi and donation apps with built-in ZK infrastructure.</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Privacy Protocols -->
+      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
+        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem">Privacy Protocol Design</p>
+        <div style="display:flex;flex-direction:column;gap:.75rem">
+          <a href="https://tornado.cash/audits/TornadoCash_whitepaper_v1.4.pdf" target="_blank" class="res-link">
+            <span class="res-title">Tornado Cash Whitepaper</span>
+            <span class="res-desc">The original privacy mixer whitepaper. Study the commitment scheme, nullifier design, and merkle tree approach.</span>
+          </a>
+          <a href="https://zcash.github.io/halo2/concepts/proofs.html" target="_blank" class="res-link">
+            <span class="res-title">Halo2 Proof System — Zcash</span>
+            <span class="res-desc">Recursive ZK proofs without trusted setup. Used in production by Zcash and many privacy protocols.</span>
+          </a>
+          <a href="https://semaphore.pse.dev/docs/introduction" target="_blank" class="res-link">
+            <span class="res-title">Semaphore Protocol Docs</span>
+            <span class="res-desc">Anonymous signalling on Ethereum. Excellent reference for building identity-preserving group membership proofs.</span>
+          </a>
+          <a href="https://docs.railgun.org/wiki/learn/overview" target="_blank" class="res-link">
+            <span class="res-title">RAILGUN Privacy System</span>
+            <span class="res-desc">Production ZK privacy system for EVM chains. Study their shielded transaction model for inspiration.</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Rust & Cryptography -->
+      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
+        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem">Rust & Cryptography</p>
+        <div style="display:flex;flex-direction:column;gap:.75rem">
+          <a href="https://doc.rust-lang.org/book/" target="_blank" class="res-link">
+            <span class="res-title">The Rust Programming Language</span>
+            <span class="res-desc">The official Rust book. If you're new to Rust, start here. Chapters 1–10 are essential before writing ZK code.</span>
+          </a>
+          <a href="https://github.com/arkworks-rs/r1cs-tutorial" target="_blank" class="res-link">
+            <span class="res-title">arkworks R1CS Tutorial</span>
+            <span class="res-desc">Hands-on Rust tutorial for building R1CS circuits with the arkworks ZK library. Practical and well-documented.</span>
+          </a>
+          <a href="https://cryptobook.nakov.com" target="_blank" class="res-link">
+            <span class="res-title">Practical Cryptography for Developers</span>
+            <span class="res-desc">Free online book covering hashing, elliptic curves, digital signatures, and more. Essential cryptography foundations.</span>
+          </a>
+          <a href="https://github.com/matter-labs/awesome-zero-knowledge-proofs" target="_blank" class="res-link">
+            <span class="res-title">Awesome ZK Proofs — Matter Labs</span>
+            <span class="res-desc">Curated list of ZK papers, libraries, and tools maintained by the ZKsync team. Bookmark this.</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
