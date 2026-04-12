@@ -202,6 +202,11 @@
   .reg-prize strong { font-size: 1.1rem; }
   .reg-features { list-style: none; font-size: 0.8rem; color: var(--muted); display: flex; flex-direction: column; gap: 0.4rem; }
   .reg-features li::before { content: '→ '; color: var(--accent); }
+  .reg-count {
+    font-size: 0.72rem; color: var(--accent);
+    border-top: 1px solid var(--border); padding-top: 0.75rem; margin-top: 0.25rem;
+  }
+  .reg-count span { font-weight: 700; }
   .btn-reg {
     margin-top: auto; padding: 0.75rem;
     background: transparent; border: 1px solid currentColor;
@@ -365,6 +370,7 @@
           <li>Certificate of participation</li>
           <li>FLINN dev community access</li>
         </ul>
+        <div class="reg-count"><span id="count-lone">—</span> contestants registered</div>
       </div>
 
       <!-- Team of 4 -->
@@ -378,6 +384,7 @@
           <li>Mentor office hours</li>
           <li>Priority judging slot</li>
         </ul>
+        <div class="reg-count"><span id="count-team4">—</span> members registered</div>
       </div>
 
       <!-- Team of 10 -->
@@ -391,6 +398,7 @@
           <li>Enterprise mentor access</li>
           <li>Demo day spotlight</li>
         </ul>
+        <div class="reg-count"><span id="count-team10">—</span> members registered</div>
       </div>
 
     </div>
@@ -468,6 +476,15 @@
   }
   updateCountdown();
   setInterval(updateCountdown, 1000);
+
+  // ── LIVE CONTESTANT COUNTS ──
+  fetch('/api-leaderboard?type=stats')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      document.getElementById('count-lone').textContent   = d.lone   || 0;
+      document.getElementById('count-team4').textContent  = d.team_4 || 0;
+      document.getElementById('count-team10').textContent = d.team_10 || 0;
+    }).catch(function() {});
 
   // ── PAYSTACK ──
   function handlePaystack(plan, amount) {

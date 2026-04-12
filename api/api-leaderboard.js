@@ -6,6 +6,17 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   if (req.method !== 'GET') return res.status(405).end();
   const { type } = req.query;
+
+  // stats — returns contestant counts per role (used by landing page)
+  if (type === 'stats') {
+    const { rows } = await pool.query(
+      `SELECT role, COUNT(*) AS count FROM users
+       WHERE payment_status = TRUE AND role != 'admin' GROUP BY role`);
+    const stats = { lone: 0, team_4: 0, team_10: 0 };
+    rows.forEach(r => { stats[r.role] = parseInt(r.count); });
+    return res.json(stats);
+  }
+
   const conditions = ["(u.role IS NULL OR u.role != 'admin')"];
   const params = [];
   if (type && type !== 'all') { params.push(type); conditions.push('lb.entity_type = $' + params.length); }
