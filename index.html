@@ -252,6 +252,25 @@
   .blink { animation: blink 1s step-end infinite; }
   @keyframes blink { 50% { opacity: 0; } }
 
+  /* ── FAQ ── */
+  .faq-item {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .faq-item[open] { border-color: var(--accent2); }
+  .faq-item summary {
+    font-size: 0.88rem; font-weight: 700; color: var(--text);
+    list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+  }
+  .faq-item summary::after { content: '+'; color: var(--accent2); font-size: 1.2rem; }
+  .faq-item[open] summary::after { content: '−'; }
+  .faq-item p {
+    margin-top: 0.85rem; font-size: 0.82rem; color: var(--muted); line-height: 1.75;
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 640px) {
     .problem-grid { grid-template-columns: 1fr; }
@@ -264,7 +283,13 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo">GHOST<span>://</span>PROTOCOL</div>
-  <a href="login.html" class="nav-cta">Onboard Now</a>
+  <div style="display:flex;gap:1.5rem;align-items:center">
+    <a href="#hack" style="color:var(--muted);text-decoration:none;font-size:.75rem;letter-spacing:.1em">Challenge</a>
+    <a href="#judging" style="color:var(--muted);text-decoration:none;font-size:.75rem;letter-spacing:.1em">Judging</a>
+    <a href="#prizes" style="color:var(--muted);text-decoration:none;font-size:.75rem;letter-spacing:.1em">Prizes</a>
+    <a href="#faq" style="color:var(--muted);text-decoration:none;font-size:.75rem;letter-spacing:.1em">FAQ</a>
+    <a href="login.html" class="nav-cta">Onboard Now</a>
+  </div>
 </nav>
 
 <!-- HERO -->
@@ -293,60 +318,103 @@
 <section id="problem">
   <div class="container">
     <p class="section-tag">The Problem</p>
-    <h2>Terrified of digital<br><span class="accent3">paper trails?</span></h2>
-    <p style="color:var(--muted);max-width:600px;line-height:1.7;font-size:0.9rem;">
-      Every donation you make leaves a fingerprint. Wallets, IP addresses, transaction graphs —
-      surveillance capitalism has turned generosity into a liability.
+    <h2>Privacy is broken.<br><span class="accent3">You're going to fix it.</span></h2>
+    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:0.9rem;">
+      Every digital transaction leaves a trail. Donations, payments, transfers — all permanently recorded, 
+      linkable, and exploitable. The world needs engineers who can build systems where financial privacy 
+      is a guarantee, not a privilege. That's what Ghost Protocol is about.
     </p>
     <div class="problem-grid">
       <div class="problem-card">
         <h3>🔍 On-chain Surveillance</h3>
-        <p>Public blockchains expose every transaction. Anyone can trace your wallet history, link your identity, and map your causes.</p>
+        <p>Public blockchains expose every transaction. Anyone can trace your wallet history, link your identity, and map your financial behaviour across time.</p>
       </div>
       <div class="problem-card">
         <h3>🏦 KYC Overreach</h3>
-        <p>Traditional payment rails demand identity verification even for micro-donations, creating permanent records tied to sensitive causes.</p>
+        <p>Traditional payment rails demand identity verification even for micro-donations, creating permanent records tied to sensitive causes and individuals.</p>
       </div>
       <div class="problem-card">
         <h3>🕵️ Metadata Leakage</h3>
-        <p>Timestamps, amounts, and frequency patterns reveal behavioral profiles even when names are hidden.</p>
+        <p>Even when names are hidden, timestamps, amounts, and frequency patterns reveal detailed behavioural profiles that can be used against you.</p>
       </div>
       <div class="problem-card">
         <h3>💀 Wallet Persistence</h3>
-        <p>Reusing wallets across transactions creates a permanent, linkable identity graph that never disappears.</p>
+        <p>Reusing wallets across transactions creates a permanent, linkable identity graph. Once linked, it never disappears — even if you want it to.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- THE HACK -->
+<!-- THE CHALLENGE -->
 <section id="hack">
   <div class="container">
-    <p class="section-tag">The Hack</p>
-    <h2>Verified. Anonymous.<br><span class="accent">Untraceable.</span></h2>
-    <p style="color:var(--muted);max-width:600px;line-height:1.7;font-size:0.9rem;">
-      Build the infrastructure that lets anyone donate to any cause — provably, privately, permanently.
+    <p class="section-tag">The Challenge</p>
+    <h2>Build a privacy protocol.<br><span class="accent">From scratch.</span></h2>
+    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:0.9rem;">
+      Your mission is to design and implement a <strong style="color:var(--text)">Zero-Knowledge micro-donation application</strong> — 
+      a system where a donor can prove they made a valid donation without revealing their identity, the amount, or the recipient. 
+      You will build the ZK circuits, the privacy protocol, and a working interface. This is not a tutorial project. 
+      This is real engineering.
     </p>
     <div class="hack-grid">
       <div class="hack-card">
         <div class="hack-icon">🔐</div>
-        <h3>ZK-Proof Verification</h3>
-        <p>Prove you made a valid donation without revealing who you are, how much, or to whom. Zero-knowledge, full integrity.</p>
+        <h3>ZK-Proof Circuits</h3>
+        <p>Design and implement Zero-Knowledge proof circuits using Rust or your preferred ZK framework (Circom, Noir, RISC Zero). Prove validity without revealing data.</p>
+      </div>
+      <div class="hack-card">
+        <div class="hack-icon">🔒</div>
+        <h3>Privacy Protocol Design</h3>
+        <p>Architect a protocol that handles commitment schemes, nullifiers, and merkle proofs. Your protocol must be formally sound — not just functional.</p>
       </div>
       <div class="hack-card">
         <div class="hack-icon">💨</div>
-        <h3>Self-Destructing Wallets</h3>
-        <p>Disposable one-time wallets that auto-destruct after a single transaction. No history. No linkability. No trace.</p>
+        <h3>Disposable Identity Layer</h3>
+        <p>Implement one-time wallet generation and destruction. No persistent identity. No linkability between transactions. No trace after execution.</p>
       </div>
       <div class="hack-card">
         <div class="hack-icon">🌐</div>
-        <h3>Decentralized Routing</h3>
-        <p>Funds route through a privacy-preserving mixer protocol. Amounts are split, delayed, and re-assembled at destination.</p>
+        <h3>Working Application</h3>
+        <p>Ship a functional end-to-end application — not just a whitepaper. Users must be able to donate privately through your interface. Demo it. Defend it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JUDGING -->
+<section id="judging" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <p class="section-tag">Judging Criteria</p>
+    <h2>How you'll be <span class="accent">evaluated.</span></h2>
+    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:0.9rem;margin-bottom:3rem;">
+      Judging follows a full academic presentation standard — think final year project defence, but with real money on the line. 
+      Every round is scored out of 100.
+    </p>
+    <div class="hack-grid">
+      <div class="hack-card">
+        <div class="hack-icon">🧠</div>
+        <h3>Technical Depth (30pts)</h3>
+        <p>How well do you understand the cryptography behind your solution? Can you explain your ZK circuits, your protocol choices, and your security assumptions?</p>
       </div>
       <div class="hack-card">
-        <div class="hack-icon">🛡️</div>
-        <h3>Identity Firewall</h3>
-        <p>Cryptographic commitments replace personal data. The system knows you're real — it just doesn't know you're you.</p>
+        <div class="hack-icon">⚙️</div>
+        <h3>Implementation Quality (25pts)</h3>
+        <p>Is your code clean, well-structured, and actually working? GitHub repo quality, test coverage, and code organisation all count.</p>
+      </div>
+      <div class="hack-card">
+        <div class="hack-icon">🎯</div>
+        <h3>Innovation & Originality (20pts)</h3>
+        <p>Did you go beyond the basics? Novel protocol design, creative privacy mechanisms, or unique application of ZK proofs will be rewarded.</p>
+      </div>
+      <div class="hack-card">
+        <div class="hack-icon">🎤</div>
+        <h3>Presentation & Defence (15pts)</h3>
+        <p>Can you present your work clearly and defend it under questioning? Appearance, communication, and confidence matter — just like a project defence.</p>
+      </div>
+      <div class="hack-card">
+        <div class="hack-icon">🖥️</div>
+        <h3>Working Demo (10pts)</h3>
+        <p>A live, functional demo submitted via YouTube. The system must work end-to-end. A broken demo costs you these points entirely.</p>
       </div>
     </div>
   </div>
@@ -430,6 +498,67 @@
     <p style="margin-top:2rem;font-size:0.75rem;color:var(--muted);">
       * Additional runner-up prizes, swag, and FLINN Labs internship fast-tracks available across all categories.
     </p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <p class="section-tag">FAQ</p>
+    <h2>Questions <span class="accent2">answered.</span></h2>
+    <div style="margin-top:2.5rem;display:flex;flex-direction:column;gap:1rem;max-width:780px">
+
+      <details class="faq-item">
+        <summary>Do I need to know ZK proofs before joining?</summary>
+        <p>No prior ZK experience is required to register. However, you will need to learn and apply ZK concepts during the hackathon. We recommend starting with Circom or Noir if you're new to ZK circuits.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What programming languages can I use?</summary>
+        <p>Rust is strongly recommended for ZK circuit development. For the application layer, you can use any stack you're comfortable with — JavaScript, Python, Go, etc. ZK frameworks like Circom, Noir, and RISC Zero are all accepted.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What do I submit each round?</summary>
+        <p>Each round requires a PDF report (progress documentation), a GitHub repository link (your code), and a YouTube demo video showing your working implementation. All three are required for a complete submission.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Can I change my team members after registering?</summary>
+        <p>Team composition is fixed after registration. Choose your teammates carefully before signing up. The team leader registers and shares the Team Code for others to join.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>How does the Team Code work?</summary>
+        <p>When a team leader registers, a unique Team Code is generated on their dashboard. They share this code with teammates. Each teammate registers separately, then enters the code on their dashboard to join the team.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Is the registration fee refundable?</summary>
+        <p>Registration fees are non-refundable. Once payment is confirmed, your slot is secured for the full 31-day hackathon.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>How are prizes paid out?</summary>
+        <p>Prize money is paid directly to winners via bank transfer after the final round is scored and results are verified by FLINN Software Labs. Winners will be contacted within 7 days of the final round closing.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What if my payment went through but my dashboard is still locked?</summary>
+        <p>Go to your pending payment page and click "Check Status". If it's still locked after a few minutes, contact FLINN Software Labs with your Paystack payment reference and we'll resolve it manually.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>Can university students from any school participate?</summary>
+        <p>Yes. Ghost Protocol is open to all Nigerian university students and recent graduates. You do not need to be from a specific institution.</p>
+      </details>
+
+      <details class="faq-item">
+        <summary>What happens if I miss a round submission?</summary>
+        <p>Missing a round means a score of zero for that round. Your cumulative score across all rounds determines your final ranking. You can still submit in subsequent rounds.</p>
+      </details>
+
+    </div>
   </div>
 </section>
 
