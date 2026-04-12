@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Dashboard — Lone Player · Ghost Protocol</title>
+<link rel="stylesheet" href="shared.css"/>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="sidebar-logo">GHOST<span>://</span>PROTOCOL</div>
+  <div class="sidebar-user"><strong id="sb-name">—</strong><span class="role-badge">Lone Player</span></div>
+  <nav>
+    <a href="lone.html" class="active">⬡ Overview</a>
+    <a href="#leaderboard">◈ Leaderboard</a>
+    <a href="#submit">⬆ Submit Work</a>
+    <a href="#history">◎ History</a>
+  </nav>
+  <div class="sidebar-footer"><button class="btn-logout" onclick="GhostAuth.logout()">⏻ Disconnect</button></div>
+</aside>
+<main class="main">
+  <div class="page-header">
+    <p class="page-tag">Lone Player Dashboard</p>
+    <h1>Welcome back, <span id="hdr-name" class="green">—</span></h1>
+    <p>Track your rank, submit your work, stay ahead of the pack.</p>
+  </div>
+  <div class="round-banner"><div class="dot"></div><span id="round-text">Checking active round...</span></div>
+  <div class="stats-row">
+    <div class="stat-tile"><div class="val green" id="stat-rank">#—</div><div class="lbl">Your Rank</div></div>
+    <div class="stat-tile"><div class="val purple" id="stat-score">0</div><div class="lbl">Total Score</div></div>
+    <div class="stat-tile"><div class="val" id="stat-subs">0</div><div class="lbl">Submissions</div></div>
+    <div class="stat-tile"><div class="val pink" id="stat-round">—</div><div class="lbl">Active Round</div></div>
+  </div>
+  <div class="card" id="leaderboard">
+    <div class="card-title">Lone Player Leaderboard</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Rank</th><th>Handle</th><th>Total Score</th><th>Last Active</th></tr></thead>
+      <tbody id="lb-body"></tbody>
+    </table></div>
+  </div>
+  <div class="card" id="submit">
+    <div class="card-title">Submit — Round <span id="form-round">—</span></div>
+    <form id="submission-form" onsubmit="handleSubmit(event)">
+      <div class="form-group"><label>PDF Report Link</label><input type="url" id="pdf-link" placeholder="https://drive.google.com/..."/></div>
+      <div class="form-group"><label>GitHub Repository</label><input type="url" id="github-link" placeholder="https://github.com/..." required/></div>
+      <div class="form-group"><label>YouTube Demo</label><input type="url" id="youtube-link" placeholder="https://youtube.com/..." required/></div>
+      <button type="submit" class="btn btn-green" id="submit-btn">⬆ Submit Round</button>
+      <span id="submit-msg" style="margin-left:1rem;font-size:.72rem;color:var(--muted)"></span>
+    </form>
+  </div>
+  <div class="card" id="history">
+    <div class="card-title">Submission History</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Round</th><th>PDF</th><th>GitHub</th><th>YouTube</th><th>Score</th><th>Status</th></tr></thead>
+      <tbody id="history-body"></tbody>
+    </table></div>
+  </div>
+</main>
+<div id="toast"></div>
+<script src="middleware.js"></script>
+<script>
+  const user = GhostAuth.gate('lone');
+  if (!user) throw new Error('blocked');
+  document.getElementById('sb-name').textContent  = user.name;
+  document.getElementById('hdr-name').textContent = user.name;
+
+  let activeRound = null;
+
+  async function loadRound() {
+    try {
+      const rows = await fetch('/api-rounds').then(r => r.json());
+      activeRound = rows.find(r => r.is_active) || null;
+      document.getElementById('round-text').textContent = activeRound
+        ? `Round ${activeRound.round_number} open · closes ${new Date(activeRound.closes_at).toLocaleDateString()}`
+        : 'No active round right now';
+      document.getElementById('form-round').textContent  = activeRound ? activeRound.round_number : '—';
+      document.getElementById('stat-round').textContent  = activeRound ? `R${activeRound.round_number}` : '—';
+    } catch {}
+  }
+
+  const lnk = u => u ? `<a href="${u}" target="_blank" style="color:var(--accent);font-size:.7rem">↗ view</a>` : '<span style="color:var(--muted)">—</span>';
+
+  async function loadLeaderboard() {
+    const lbBody = document.getElementById('lb-body');
+    lbBody.innerHTML = '<tr><td colspan="4" style="color:var(--muted)">Loading...</td></tr>';
+    try {
+      const rows = await fetch('/api-leaderboard?type=user').then(r => r.json());
+      lbBody.innerHTML = rows.length ? rows.map(row => {
+        const isMe = row.display_name === user.name;
+        return `<tr style="${isMe?'background:rgba(0,255,157,.05)':''}">
+          <td class="rank-num">${row.rank}</td>
+          <td>${row.display_name}${isMe?' <span class="badge badge-green">YOU</span>':''}</td>
+          <td class="green">${row.total_score}</td>
+          <td style="color:var(--muted)">${new Date(row.last_updated).toLocaleDateString()}</td></tr>`;
+      }).join('') : '<tr><td colspan="4" style="color:var(--muted)">No scores yet — be the first!</td></tr>';
+      const me = rows.find(r => r.display_name === user.name);
+      document.getElementById('stat-rank').textContent  = me ? `#${me.rank}` : '#—';
+      document.getElementById('stat-score').textContent = me ? me.total_score : 0;
+    } catch { lbBody.innerHTML = '<tr><td colspan="4" style="color:var(--a3)">Failed to load.</td></tr>'; }
+  }
+
+  async function loadHistory() {
+    const hBody = document.getElementById('history-body');
+    hBody.innerHTML = '<tr><td colspan="6" style="color:var(--muted)">Loading...</td></tr>';
+    try {
+      const rows = await fetch(`/api-submissions?user_id=${user.id}`).then(r => r.json());
+      document.getElementById('stat-subs').textContent = rows.filter(h => h.score !== null).length;
+      hBody.innerHTML = rows.length ? rows.map(h => `<tr>
+        <td>Round ${h.round_number}</td><td>${lnk(h.pdf_link)}</td><td>${lnk(h.github_link)}</td><td>${lnk(h.youtube_link)}</td>
+        <td class="green">${h.score !== null ? h.score : '<span style="color:var(--muted)">Pending</span>'}</td>
+        <td>${h.score !== null ? '<span class="badge badge-green">Scored</span>' : '<span class="badge badge-muted">Awaiting</span>'}</td>
+      </tr>`).join('') : '<tr><td colspan="6" style="color:var(--muted)">No submissions yet.</td></tr>';
+    } catch { hBody.innerHTML = '<tr><td colspan="6" style="color:var(--a3)">Failed to load.</td></tr>'; }
+  }
+
+  loadLeaderboard(); loadHistory(); loadRound();
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    if (!activeRound) { showToast('No active round — submissions are closed.'); return; }
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true; btn.textContent = 'Submitting...';
+    try {
+      const res = await GhostAuth.api('/api-submissions', { method:'POST', body: JSON.stringify({
+        user_id: user.id, round_number: activeRound.round_number,
+        pdf_link: document.getElementById('pdf-link').value || null,
+        github_link: document.getElementById('github-link').value,
+        youtube_link: document.getElementById('youtube-link').value,
+      })});
+      if (!res || !res.ok) { const e = await res?.json(); throw new Error(e?.error || 'Failed'); }
+      showToast('Submission saved for Round ' + activeRound.round_number);
+      document.getElementById('submit-msg').textContent = '✓ Submitted';
+      e.target.reset(); loadHistory();
+    } catch(err) { showToast('Error: ' + err.message); }
+    finally { btn.disabled = false; btn.textContent = '⬆ Submit Round'; }
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast'); t.textContent = msg;
+    t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000);
+  }
+</script>
+</body>
+</html>

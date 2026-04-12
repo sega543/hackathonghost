@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Pending Payment — Ghost Protocol</title>
+<style>
+:root{--bg:#050508;--surface:#0d0d14;--border:#1a1a2e;--accent:#00ff9d;--a3:#ff2d78;--text:#e0e0f0;--muted:#6b6b8a;--glow:0 0 20px rgba(0,255,157,.35);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Courier New',monospace;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1.5rem;}
+.box{max-width:480px;width:100%;border:1px solid var(--border);padding:2.5rem;background:var(--surface);text-align:center;}
+.icon{font-size:3rem;margin-bottom:1rem;}
+.tag{font-size:.62rem;letter-spacing:.3em;color:var(--a3);text-transform:uppercase;margin-bottom:.75rem;}
+h1{font-size:1.6rem;font-weight:800;margin-bottom:.75rem;}
+p{color:var(--muted);font-size:.82rem;line-height:1.7;margin-bottom:1.75rem;}
+.btn{display:inline-block;background:var(--accent);color:var(--bg);padding:.8rem 2rem;font-family:inherit;font-size:.82rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border:none;box-shadow:var(--glow);transition:all .2s;margin:.25rem;}
+.btn:hover{transform:translateY(-2px);box-shadow:0 0 35px rgba(0,255,157,.55);}
+.btn-outline{background:transparent;border:1px solid var(--accent);color:var(--accent);box-shadow:none;}
+.btn-outline:hover{background:var(--accent);color:var(--bg);}
+.status{margin-top:1rem;font-size:.72rem;color:var(--muted);}
+.status span{color:var(--accent);}
+hr{border:none;border-top:1px solid var(--border);margin:1.5rem 0;}
+.links{font-size:.72rem;color:var(--muted);}
+.links a{color:var(--accent);text-decoration:none;cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="icon">🔒</div>
+  <p class="tag">Access Restricted</p>
+  <h1>Payment Pending</h1>
+  <p>Your dashboard is locked until payment is confirmed. Complete your registration fee to unlock full access.</p>
+  <button class="btn" onclick="openPaystack()">Complete Payment</button>
+  <button class="btn btn-outline" onclick="checkStatus()">Check Status</button>
+  <div class="status">Account: <span id="email-display">—</span></div>
+  <hr/>
+  <p class="links"><a href="index.html">← Back to home</a> &nbsp;·&nbsp; <a onclick="doLogout()">Logout</a></p>
+</div>
+
+<script src="middleware.js"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+  const user  = sessionStorage.getItem('ghost_user') ? JSON.parse(sessionStorage.getItem('ghost_user')) : null;
+  const token = sessionStorage.getItem('ghost_token');
+  if (!user || !token) { window.location.href = 'login.html'; }
+  if (user && user.payment_status) {
+    const routes = { lone:'lone.html', team_4:'team4.html', team_10:'team10.html' };
+    window.location.href = routes[user.role] || 'lone.html';
+  }
+
+  const PRICES = { lone: 10000, team_4: 1000000, team_10: 2000000 };
+  document.getElementById('email-display').textContent = user?.email || '—';
+
+  function openPaystack() {
+    if (!user) return;
+    const ref = 'GHOST_' + Date.now();
+    PaystackPop.setup({
+      key: 'pk_live_a0122e8eaf5af78c67ee9fa1de121d615e30bb62',
+      email: user.email,
+      amount: PRICES[user.role] || 250000,
+      currency: 'NGN',
+      ref,
+      metadata: { user_id: user.id, plan: user.role },
+      callback: function() { pollPayment(); },
+      onClose: function() {}
+    }).openIframe();
+  }
+
+  async function pollPayment() {
+    let attempts = 0;
+    const interval = setInterval(async () => {
+      attempts++;
+      try {
+        const r = await fetch('/api-payment-status', { headers: { Authorization: `Bearer ${token}` } });
+        const d = await r.json();
+        if (d.payment_status) {
+          clearInterval(interval);
+          const updated = { ...user, payment_status: true };
+          sessionStorage.setItem('ghost_user', JSON.stringify(updated));
+          const routes = { lone:'lone.html', team_4:'team4.html', team_10:'team10.html' };
+          window.location.href = routes[user.role] || 'lone.html';
+        }
+      } catch {}
+      if (attempts >= 15) clearInterval(interval);
+    }, 2000);
+  }
+
+  async function checkStatus() {
+    try {
+      const r = await fetch('/api-payment-status', { headers: { Authorization: `Bearer ${token}` } });
+      const d = await r.json();
+      if (d.payment_status) {
+        const updated = { ...user, payment_status: true };
+        sessionStorage.setItem('ghost_user', JSON.stringify(updated));
+        const routes = { lone:'lone.html', team_4:'team4.html', team_10:'team10.html' };
+        window.location.href = routes[user.role] || 'lone.html';
+      } else {
+        alert('Payment not yet confirmed. If you just paid, wait a few seconds and try again.');
+      }
+    } catch { alert('Network error. Try again.'); }
+  }
+
+  function doLogout() {
+    sessionStorage.removeItem('ghost_token');
+    sessionStorage.removeItem('ghost_user');
+    window.location.href = 'login.html';
+  }
+</script>
+</body>
+</html>
