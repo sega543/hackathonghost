@@ -377,10 +377,23 @@ const GhostAuth = (() => {
             <button class="save-score-btn" onclick="saveScore('${s.id}')">Save</button>
           </div>
         </div>
-        <div style="display:flex;gap:1.5rem;font-size:.75rem;color:var(--muted)">
+        <div style="display:flex;gap:1.5rem;font-size:.75rem;color:var(--muted);align-items:center">
           <span>PDF ${lnk(s.pdf_link)}</span><span>GitHub ${lnk(s.github_link)}</span><span>YouTube ${lnk(s.youtube_link)}</span>
+          <button onclick="deleteSubmission('${s.id}')" style="margin-left:auto;background:transparent;border:1px solid var(--a3);color:var(--a3);padding:.25rem .7rem;font-family:inherit;font-size:.62rem;letter-spacing:.1em;cursor:pointer;">✕ Delete</button>
         </div>
       </div>`).join('') : '<p style="color:var(--muted);font-size:.8rem">No submissions match filter.</p>';
+  }
+
+  async function deleteSubmission(subId) {
+    if (!confirm('Delete this submission? This cannot be undone.')) return;
+    try {
+      const res = await GhostAuth.api('/api-admin-submissions', { method:'DELETE', body: JSON.stringify({id:subId}) });
+      if (!res || !res.ok) { const e = await res?.json(); throw new Error(e?.error || 'Failed'); }
+      SUBMISSIONS = SUBMISSIONS.filter(s => s.id !== subId);
+      showToast('Submission deleted');
+      renderScoring();
+      loadLeaderboardData();
+    } catch(err) { showToast('Error: ' + err.message); }
   }
 
   async function saveScore(subId) {
