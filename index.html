@@ -516,245 +516,129 @@
 <section id="resources" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
   <div class="container">
     <p class="section-tag">Resources</p>
-    <h2>Everything you need to <span class="accent">build well.</span></h2>
-    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:0.9rem;margin-bottom:3rem;">
-      Curated documentation, papers, and toolkits. Start here before you write a single line of circuit code.
-    </p>
-
+    <h2>Your arsenal. <span class="accent">All 12 weeks.</span></h2>
+    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:0.9rem;margin-bottom:3rem;">Curated docs and references for every week. Bookmark what you need. Build what matters.</p>
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem">
-
-      <!-- ZK Fundamentals -->
       <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
-        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem">ZK Fundamentals</p>
+        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 1</p>
+        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Go + Fiber + SvelteKit + Redis</p>
         <div style="display:flex;flex-direction:column;gap:.75rem">
-          <a href="https://docs.zksync.io/zksync-protocol/era-vm/circuits" target="_blank" class="res-link">
-            <span class="res-title">ZKsync Circuit Architecture</span>
-            <span class="res-desc">How ZKsync builds EVM-replicating circuits using Boojum. Essential reading for understanding ZK circuit design.</span>
-          </a>
-          <a href="https://vitalik.eth.limo/general/2019/09/22/plonk.html" target="_blank" class="res-link">
-            <span class="res-title">Understanding PLONK — Vitalik Buterin</span>
-            <span class="res-desc">The definitive blog post on PLONK arithmetization. Read this before touching any ZK proof system.</span>
-          </a>
-          <a href="https://z.cash/technology/zksnarks/" target="_blank" class="res-link">
-            <span class="res-title">zkSNARKs Explained — Zcash</span>
-            <span class="res-desc">Clear, accessible introduction to zkSNARKs from the team that pioneered privacy-preserving transactions.</span>
-          </a>
-          <a href="https://starkware.co/stark-101/" target="_blank" class="res-link">
-            <span class="res-title">STARK 101 — StarkWare</span>
-            <span class="res-desc">Hands-on introduction to STARKs with Python. Great for understanding proof systems from first principles.</span>
-          </a>
+          <a href="https://docs.gofiber.io" target="_blank" class="res-link"><span class="res-title">Go Fiber Docs</span><span class="res-desc">WebSocket middleware, routing, and middleware chains for the auction engine.</span></a>
+          <a href="https://kit.svelte.dev/docs" target="_blank" class="res-link"><span class="res-title">SvelteKit Documentation</span><span class="res-desc">Reactive stores, SSR, and real-time patterns for the live bidding UI.</span></a>
+          <a href="https://redis.io/docs/latest/" target="_blank" class="res-link"><span class="res-title">Redis Documentation</span><span class="res-desc">Pub/Sub and streams for distributed WebSocket state coordination.</span></a>
         </div>
       </div>
-
-      <!-- ZK Toolkits -->
       <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
-        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem">ZK Toolkits & Frameworks</p>
+        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 2</p>
+        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Next.js + NestJS + PostgreSQL + Prisma</p>
         <div style="display:flex;flex-direction:column;gap:.75rem">
-          <a href="https://docs.circom.io" target="_blank" class="res-link">
-            <span class="res-title">Circom Documentation</span>
-            <span class="res-desc">The most widely used ZK circuit language. Write circuits in Circom, generate proofs with snarkjs. Beginner-friendly.</span>
-          </a>
-          <a href="https://noir-lang.org/docs" target="_blank" class="res-link">
-            <span class="res-title">Noir Language Docs</span>
-            <span class="res-desc">Aztec's Rust-like ZK language. Cleaner syntax than Circom, excellent for building privacy applications.</span>
-          </a>
-          <a href="https://dev.risczero.com/api" target="_blank" class="res-link">
-            <span class="res-title">RISC Zero Developer Docs</span>
-            <span class="res-desc">Write ZK proofs in standard Rust. No circuit DSL needed — prove arbitrary Rust programs with zkVM.</span>
-          </a>
-          <a href="https://docs.aztec.network" target="_blank" class="res-link">
-            <span class="res-title">Aztec Network Docs</span>
-            <span class="res-desc">Privacy-first smart contract platform. Build private DeFi and donation apps with built-in ZK infrastructure.</span>
-          </a>
+          <a href="https://docs.nestjs.com" target="_blank" class="res-link"><span class="res-title">NestJS Documentation</span><span class="res-desc">Guards, interceptors, and RBAC patterns. The Guards section is critical for multi-tenant auth.</span></a>
+          <a href="https://www.prisma.io/docs" target="_blank" class="res-link"><span class="res-title">Prisma ORM Docs</span><span class="res-desc">Multi-tenant patterns, Client Extensions, and Row-Level Security with PostgreSQL.</span></a>
+          <a href="https://nextjs.org/docs" target="_blank" class="res-link"><span class="res-title">Next.js Documentation</span><span class="res-desc">App Router, middleware, and serverless deployment patterns for SaaS frontends.</span></a>
         </div>
       </div>
-
-      <!-- Privacy Protocols -->
       <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
-        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem">Privacy Protocol Design</p>
+        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 3</p>
+        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Flutter + Elixir/Phoenix + SQLite + CRDTs</p>
         <div style="display:flex;flex-direction:column;gap:.75rem">
-          <a href="https://tornado.cash/audits/TornadoCash_whitepaper_v1.4.pdf" target="_blank" class="res-link">
-            <span class="res-title">Tornado Cash Whitepaper</span>
-            <span class="res-desc">The original privacy mixer whitepaper. Study the commitment scheme, nullifier design, and merkle tree approach.</span>
-          </a>
-          <a href="https://zcash.github.io/halo2/concepts/proofs.html" target="_blank" class="res-link">
-            <span class="res-title">Halo2 Proof System — Zcash</span>
-            <span class="res-desc">Recursive ZK proofs without trusted setup. Used in production by Zcash and many privacy protocols.</span>
-          </a>
-          <a href="https://semaphore.pse.dev/docs/introduction" target="_blank" class="res-link">
-            <span class="res-title">Semaphore Protocol Docs</span>
-            <span class="res-desc">Anonymous signalling on Ethereum. Excellent reference for building identity-preserving group membership proofs.</span>
-          </a>
-          <a href="https://docs.railgun.org/wiki/learn/overview" target="_blank" class="res-link">
-            <span class="res-title">RAILGUN Privacy System</span>
-            <span class="res-desc">Production ZK privacy system for EVM chains. Study their shielded transaction model for inspiration.</span>
-          </a>
+          <a href="https://docs.flutter.dev/app-architecture/design-patterns/offline-first" target="_blank" class="res-link"><span class="res-title">Flutter Offline-First Patterns</span><span class="res-desc">Official Flutter guide on offline architecture, local persistence, and sync strategies.</span></a>
+          <a href="https://hexdocs.pm/phoenix/overview.html" target="_blank" class="res-link"><span class="res-title">Phoenix Framework Docs</span><span class="res-desc">Channels and Presence for real-time sync when agents come back online.</span></a>
+          <a href="https://crdt.tech" target="_blank" class="res-link"><span class="res-title">CRDT.tech</span><span class="res-desc">Papers, implementations, and explanations of Conflict-free Replicated Data Types. Start here.</span></a>
         </div>
       </div>
-
-      <!-- Rust & Cryptography -->
       <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
-        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:1rem">Rust & Cryptography</p>
+        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 4</p>
+        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">C++ / Drogon + WebAssembly + React</p>
         <div style="display:flex;flex-direction:column;gap:.75rem">
-          <a href="https://doc.rust-lang.org/book/" target="_blank" class="res-link">
-            <span class="res-title">The Rust Programming Language</span>
-            <span class="res-desc">The official Rust book. If you're new to Rust, start here. Chapters 1–10 are essential before writing ZK code.</span>
-          </a>
-          <a href="https://github.com/arkworks-rs/r1cs-tutorial" target="_blank" class="res-link">
-            <span class="res-title">arkworks R1CS Tutorial</span>
-            <span class="res-desc">Hands-on Rust tutorial for building R1CS circuits with the arkworks ZK library. Practical and well-documented.</span>
-          </a>
-          <a href="https://cryptobook.nakov.com" target="_blank" class="res-link">
-            <span class="res-title">Practical Cryptography for Developers</span>
-            <span class="res-desc">Free online book covering hashing, elliptic curves, digital signatures, and more. Essential cryptography foundations.</span>
-          </a>
-          <a href="https://github.com/matter-labs/awesome-zero-knowledge-proofs" target="_blank" class="res-link">
-            <span class="res-title">Awesome ZK Proofs — Matter Labs</span>
-            <span class="res-desc">Curated list of ZK papers, libraries, and tools maintained by the ZKsync team. Bookmark this.</span>
-          </a>
+          <a href="https://emscripten.org/docs/getting_started/index.html" target="_blank" class="res-link"><span class="res-title">Emscripten Documentation</span><span class="res-desc">Compile C/C++ to WebAssembly. The toolchain you need to get C++ running in the browser.</span></a>
+          <a href="https://drogon.docsforge.com" target="_blank" class="res-link"><span class="res-title">Drogon C++ Framework</span><span class="res-desc">High-performance async C++ web framework for the backend API layer.</span></a>
+          <a href="https://webassembly.org/docs/use-cases/" target="_blank" class="res-link"><span class="res-title">WebAssembly Official Docs</span><span class="res-desc">WASM concepts, memory model, and browser integration. Read before writing a .wasm file.</span></a>
         </div>
       </div>
-
+      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
+        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 5</p>
+        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Rust + Tauri + Vue.js</p>
+        <div style="display:flex;flex-direction:column;gap:.75rem">
+          <a href="https://tauri.app/start/" target="_blank" class="res-link"><span class="res-title">Tauri 2.0 Documentation</span><span class="res-desc">Desktop apps with Rust backend and web frontend. IPC, commands, and events.</span></a>
+          <a href="https://vuejs.org/guide/introduction" target="_blank" class="res-link"><span class="res-title">Vue.js Documentation</span><span class="res-desc">Composition API, reactivity system, and Pinia state management.</span></a>
+          <a href="https://doc.rust-lang.org/book/" target="_blank" class="res-link"><span class="res-title">The Rust Book</span><span class="res-desc">Ownership, borrowing, and memory safety. Chapters 4, 15, and 16 are essential for Tauri.</span></a>
+        </div>
+      </div>
+      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
+        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 6</p>
+        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Haskell / IHP + HTMX</p>
+        <div style="display:flex;flex-direction:column;gap:.75rem">
+          <a href="https://ihp.digitallyinduced.com/Guide/index.html" target="_blank" class="res-link"><span class="res-title">IHP Framework Guide</span><span class="res-desc">Type-safe Haskell web framework. One type error kills the build � by design.</span></a>
+          <a href="https://htmx.org/docs/" target="_blank" class="res-link"><span class="res-title">HTMX Documentation</span><span class="res-desc">HTML-over-the-wire. No JSON APIs. Server returns HTML fragments directly.</span></a>
+          <a href="https://learnyouahaskell.com" target="_blank" class="res-link"><span class="res-title">Learn You a Haskell</span><span class="res-desc">Free Haskell book. If you have never written Haskell, start here before touching IHP.</span></a>
+        </div>
+      </div>
+      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
+        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 7</p>
+        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Swift / Kotlin Native + Ktor</p>
+        <div style="display:flex;flex-direction:column;gap:.75rem">
+          <a href="https://ktor.io/docs/server-create-a-new-project.html" target="_blank" class="res-link"><span class="res-title">Ktor Server Documentation</span><span class="res-desc">Kotlin async HTTP server. Authentication plugin, routing, and WebSocket support.</span></a>
+          <a href="https://developer.apple.com/documentation/localauthentication" target="_blank" class="res-link"><span class="res-title">Apple LocalAuthentication Docs</span><span class="res-desc">FaceID and TouchID APIs for iOS. LAContext, biometric policy, and error handling.</span></a>
+          <a href="https://developer.android.com/training/sign-in/biometric-auth" target="_blank" class="res-link"><span class="res-title">Android Biometric API</span><span class="res-desc">BiometricPrompt, CryptoObject, and secure key storage for Android biometric auth.</span></a>
+        </div>
+      </div>
+      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
+        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 8</p>
+        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Noir / Aztec + Rust + Next.js</p>
+        <div style="display:flex;flex-direction:column;gap:.75rem">
+          <a href="https://noir-lang.org/docs" target="_blank" class="res-link"><span class="res-title">Noir Language Docs</span><span class="res-desc">ZK circuit language for private voting. Client-side proof generation is the hard part.</span></a>
+          <a href="https://docs.aztec.network" target="_blank" class="res-link"><span class="res-title">Aztec Network Docs</span><span class="res-desc">Private state, notes, and nullifiers for voting systems.</span></a>
+          <a href="https://docs.zksync.io/zksync-protocol/era-vm/circuits" target="_blank" class="res-link"><span class="res-title">ZKsync Circuit Architecture</span><span class="res-desc">How production ZK circuits are structured. Essential context before building your own.</span></a>
+        </div>
+      </div>
+      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
+        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 9</p>
+        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Scala + Akka + Angular</p>
+        <div style="display:flex;flex-direction:column;gap:.75rem">
+          <a href="https://doc.akka.io/docs/akka/current/typed/cluster-sharding.html" target="_blank" class="res-link"><span class="res-title">Akka Cluster Sharding</span><span class="res-desc">Distribute actors across nodes. Actor supervision and failure recovery docs are critical.</span></a>
+          <a href="https://docs.scala-lang.org/tour/tour-of-scala.html" target="_blank" class="res-link"><span class="res-title">Tour of Scala</span><span class="res-desc">Case classes, pattern matching, and futures � all needed for Akka actor systems.</span></a>
+          <a href="https://angular.dev/overview" target="_blank" class="res-link"><span class="res-title">Angular Documentation</span><span class="res-desc">Signals, RxJS, and control flow for building reactive social graph UIs.</span></a>
+        </div>
+      </div>
+      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
+        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 10</p>
+        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Zig + Custom HTTP Server + Vanilla JS</p>
+        <div style="display:flex;flex-direction:column;gap:.75rem">
+          <a href="https://ziglang.org/documentation/master/" target="_blank" class="res-link"><span class="res-title">Zig Language Reference</span><span class="res-desc">Memory management, comptime, and std.net for raw TCP/HTTP handling. No libraries.</span></a>
+          <a href="https://blog.orhun.dev/zig-bits-04/" target="_blank" class="res-link"><span class="res-title">Building HTTP from Scratch in Zig</span><span class="res-desc">Practical walkthrough of an HTTP server using only Zig standard library.</span></a>
+          <a href="https://www.openmymind.net/TCP-Server-In-Zig-Part-1-Single-Threaded/" target="_blank" class="res-link"><span class="res-title">TCP Server in Zig � Series</span><span class="res-desc">Single-threaded to multi-threaded TCP in Zig. The foundation for your HTTP layer.</span></a>
+        </div>
+      </div>
+      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
+        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 11</p>
+        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Terraform + Kubernetes + Go + React</p>
+        <div style="display:flex;flex-direction:column;gap:.75rem">
+          <a href="https://developer.hashicorp.com/terraform/docs" target="_blank" class="res-link"><span class="res-title">Terraform Documentation</span><span class="res-desc">Multi-region deployments, modules, and state management for global infrastructure.</span></a>
+          <a href="https://kubernetes.io/docs/home/" target="_blank" class="res-link"><span class="res-title">Kubernetes Documentation</span><span class="res-desc">Deployments, Services, Ingress, and health checks. Liveness/readiness probes are key.</span></a>
+          <a href="https://go.dev/doc/" target="_blank" class="res-link"><span class="res-title">Go Official Documentation</span><span class="res-desc">Goroutines, channels, and net/http for building the distributed backend.</span></a>
+        </div>
+      </div>
+      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
+        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 12</p>
+        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Inline Assembly + Rust + WASM + SolidJS</p>
+        <div style="display:flex;flex-direction:column;gap:.75rem">
+          <a href="https://doc.rust-lang.org/reference/inline-assembly.html" target="_blank" class="res-link"><span class="res-title">Rust Inline Assembly Reference</span><span class="res-desc">The asm! macro. Register constraints, clobbers, and options. One wrong move = crash.</span></a>
+          <a href="https://github.com/RustCrypto/asm-hashes" target="_blank" class="res-link"><span class="res-title">RustCrypto ASM Hashes</span><span class="res-desc">Assembly implementations of SHA-256 and SHA-512 in Rust. Study before writing your own.</span></a>
+          <a href="https://www.solidjs.com/docs/latest" target="_blank" class="res-link"><span class="res-title">SolidJS Documentation</span><span class="res-desc">Fine-grained reactivity without a virtual DOM. Ideal for performance-critical WASM UIs.</span></a>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:2rem;border:1px solid var(--border);padding:1.5rem;background:rgba(123,47,255,0.04)">
+      <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent2);text-transform:uppercase;margin-bottom:1rem">General ZK & Cryptography (Weeks 8 & 12)</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.75rem">
+        <a href="https://vitalik.eth.limo/general/2019/09/22/plonk.html" target="_blank" class="res-link"><span class="res-title">Understanding PLONK � Vitalik</span><span class="res-desc">The definitive PLONK arithmetization post. Read before any ZK circuit work.</span></a>
+        <a href="https://docs.circom.io" target="_blank" class="res-link"><span class="res-title">Circom Documentation</span><span class="res-desc">Most widely used ZK circuit language. Good starting point before moving to Noir.</span></a>
+        <a href="https://semaphore.pse.dev/docs/introduction" target="_blank" class="res-link"><span class="res-title">Semaphore Protocol</span><span class="res-desc">Anonymous signalling on Ethereum. Reference for Week 8 private voting design.</span></a>
+        <a href="https://github.com/matter-labs/awesome-zero-knowledge-proofs" target="_blank" class="res-link"><span class="res-title">Awesome ZK Proofs</span><span class="res-desc">Curated list of every ZK paper, library, and tool. Maintained by the ZKsync team.</span></a>
+        <a href="https://cryptobook.nakov.com" target="_blank" class="res-link"><span class="res-title">Practical Cryptography for Developers</span><span class="res-desc">Free book. Elliptic curves, hashing, signatures � foundations behind all ZK work.</span></a>
+        <a href="https://dev.risczero.com/api" target="_blank" class="res-link"><span class="res-title">RISC Zero Developer Docs</span><span class="res-desc">Prove arbitrary Rust programs with zkVM. Alternative for Weeks 8 and 12.</span></a>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- FAQ -->
-<section id="faq">
-  <div class="container">
-    <p class="section-tag">FAQ</p>
-    <h2>Questions <span class="accent2">answered.</span></h2>
-    <div style="margin-top:2.5rem;display:flex;flex-direction:column;gap:1rem;max-width:780px">
-
-      <details class="faq-item">
-        <summary>Do I need to know ZK proofs before joining?</summary>
-        <p>No prior ZK experience is required to register. However, you will need to learn and apply ZK concepts during the hackathon. We recommend starting with Circom or Noir if you're new to ZK circuits.</p>
-      </details>
-
-      <details class="faq-item">
-        <summary>What programming languages can I use?</summary>
-        <p>Rust is strongly recommended for ZK circuit development. For the application layer, you can use any stack you're comfortable with — JavaScript, Python, Go, etc. ZK frameworks like Circom, Noir, and RISC Zero are all accepted.</p>
-      </details>
-
-      <details class="faq-item">
-        <summary>What do I submit each round?</summary>
-        <p>Each round requires a PDF report (progress documentation), a GitHub repository link (your code), and a YouTube demo video showing your working implementation. All three are required for a complete submission.</p>
-      </details>
-
-      <details class="faq-item">
-        <summary>Can I change my team members after registering?</summary>
-        <p>Team composition is fixed after registration. Choose your teammates carefully before signing up. The team leader registers and shares the Team Code for others to join.</p>
-      </details>
-
-      <details class="faq-item">
-        <summary>How does the Team Code work?</summary>
-        <p>When a team leader registers, a unique Team Code is generated on their dashboard. They share this code with teammates. Each teammate registers separately, then enters the code on their dashboard to join the team.</p>
-      </details>
-
-      <details class="faq-item">
-        <summary>Is the registration fee refundable?</summary>
-        <p>Registration fees are non-refundable. Once payment is confirmed, your slot is secured for the full 31-day hackathon.</p>
-      </details>
-
-      <details class="faq-item">
-        <summary>How are prizes paid out?</summary>
-        <p>Prize money is paid directly to winners via bank transfer after the final round is scored and results are verified by FLINN Software Labs. Winners will be contacted within 7 days of the final round closing.</p>
-      </details>
-
-      <details class="faq-item">
-        <summary>What if my payment went through but my dashboard is still locked?</summary>
-        <p>Go to your pending payment page and click "Check Status". If it's still locked after a few minutes, contact FLINN Software Labs with your Paystack payment reference and we'll resolve it manually.</p>
-      </details>
-
-      <details class="faq-item">
-        <summary>Can university students from any school participate?</summary>
-        <p>Yes. Ghost Protocol is open to all Nigerian university students and recent graduates. You do not need to be from a specific institution.</p>
-      </details>
-
-      <details class="faq-item">
-        <summary>What happens if I miss a round submission?</summary>
-        <p>Missing a round means a score of zero for that round. Your cumulative score across all rounds determines your final ranking. You can still submit in subsequent rounds.</p>
-      </details>
-
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section id="cta">
-  <div class="container">
-    <p class="section-tag">Call to Action</p>
-    <h2>Go dark.<br><span class="accent">Build the future.</span></h2>
-    <p>
-      31 days. Real stakes. Zero surveillance.
-      The cypherpunk revolution doesn't wait — neither should you.
-    </p>
-    <a href="login.html" class="btn-primary">Onboard Now <span class="blink">_</span></a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <p>© 2026 <span>FLINN Software Labs</span> · Ghost Protocol Hackathon · All rights reserved.</p>
-  <p style="margin-top:0.5rem;">Built for the cypherpunks. Powered by ZK-Proofs.</p>
-</footer>
-
-<script>
-  // ── COUNTDOWN ──
-  const target = new Date('2026-07-01T00:00:00');
-  function updateCountdown() {
-    const now = new Date();
-    const diff = target - now;
-    if (diff <= 0) {
-      document.getElementById('cd-days').textContent = '00';
-      document.getElementById('cd-hours').textContent = '00';
-      document.getElementById('cd-mins').textContent = '00';
-      document.getElementById('cd-secs').textContent = '00';
-      return;
-    }
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    document.getElementById('cd-days').textContent  = String(d).padStart(2,'0');
-    document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
-    document.getElementById('cd-mins').textContent  = String(m).padStart(2,'0');
-    document.getElementById('cd-secs').textContent  = String(s).padStart(2,'0');
-  }
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
-
-  // ── LIVE CONTESTANT COUNTS ──
-  fetch('/api-leaderboard?type=stats')
-    .then(function(r) { return r.json(); })
-    .then(function(d) {
-      document.getElementById('count-lone').textContent   = d.lone   || 0;
-      document.getElementById('count-team4').textContent  = d.team_4 || 0;
-      document.getElementById('count-team10').textContent = d.team_10 || 0;
-    }).catch(function() {});
-
-  // ── PAYSTACK ──
-  function handlePaystack(plan, amount) {
-    // Replace 'pk_test_xxxx' with your actual Paystack public key
-    const handler = PaystackPop.setup({
-      key: 'pk_live_a0122e8eaf5af78c67ee9fa1de121d615e30bb62',
-      email: prompt('Enter your email to continue:') || 'user@example.com',
-      amount: amount * 100, // kobo
-      currency: 'NGN',
-      ref: 'GHOST_' + Date.now(),
-      metadata: { plan: plan },
-      callback: function(response) {
-        sessionStorage.setItem('ghost_payment_ref', response.reference);
-        alert('Payment submitted! Reference: ' + response.reference + '\nYou will receive confirmation shortly.');
-      },
-      onClose: function() {
-        console.log('Payment window closed.');
-      }
-    });
-    handler.openIframe();
-  }
-</script>
-<!-- Paystack inline JS SDK -->
-<script src="https://js.paystack.co/v1/inline.js"></script>
-</body>
-</html>
