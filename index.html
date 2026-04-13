@@ -3,302 +3,136 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Ghost Protocol — FLINN Software Labs Hackathon</title>
+<title>Ghost Protocol — FLINN Software Labs Fullstack Hackathon 2026</title>
 <style>
   :root {
-    --bg: #050508;
-    --surface: #0d0d14;
-    --border: #1a1a2e;
-    --accent: #00ff9d;
-    --accent2: #7b2fff;
-    --accent3: #ff2d78;
-    --text: #e0e0f0;
-    --muted: #6b6b8a;
+    --bg: #050508; --surface: #0d0d14; --border: #1a1a2e;
+    --accent: #00ff9d; --accent2: #7b2fff; --accent3: #ff2d78;
+    --text: #e0e0f0; --muted: #6b6b8a;
     --glow: 0 0 20px rgba(0,255,157,0.35);
     --glow2: 0 0 20px rgba(123,47,255,0.35);
   }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Courier New', Courier, monospace;
-    overflow-x: hidden;
-  }
-
-  /* ── NOISE OVERLAY ── */
+  body { background: var(--bg); color: var(--text); font-family: 'Courier New', Courier, monospace; overflow-x: hidden; }
   body::before {
-    content: '';
-    position: fixed; inset: 0;
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0.4;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 0; opacity: 0.4;
   }
-
-  /* ── NAV ── */
   nav {
     position: fixed; top: 0; width: 100%; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 1rem 2rem;
-    background: rgba(5,5,8,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
+    padding: 1rem 2rem; background: rgba(5,5,8,0.9);
+    backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
   }
-  .nav-logo {
-    font-size: 1.1rem; font-weight: 700; letter-spacing: 0.15em;
-    color: var(--accent); text-shadow: var(--glow);
-  }
+  .nav-logo { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.15em; color: var(--accent); text-shadow: var(--glow); }
   .nav-logo span { color: var(--muted); }
-  .nav-cta {
-    background: transparent; border: 1px solid var(--accent);
-    color: var(--accent); padding: 0.45rem 1.2rem;
-    font-family: inherit; font-size: 0.8rem; letter-spacing: 0.1em;
-    cursor: pointer; transition: all 0.2s;
-    text-decoration: none;
-  }
+  .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: .75rem; letter-spacing: .1em; transition: color .15s; }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta { background: transparent; border: 1px solid var(--accent); color: var(--accent); padding: .45rem 1.2rem; font-family: inherit; font-size: .8rem; letter-spacing: .1em; cursor: pointer; transition: all .2s; text-decoration: none; }
   .nav-cta:hover { background: var(--accent); color: var(--bg); box-shadow: var(--glow); }
-
-  /* ── HERO ── */
   #hero {
-    min-height: 100vh;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 6rem 1.5rem 4rem;
-    position: relative; overflow: hidden;
+    min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 6rem 1.5rem 4rem; position: relative; overflow: hidden;
   }
   .grid-bg {
     position: absolute; inset: 0;
-    background-image:
-      linear-gradient(rgba(0,255,157,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,255,157,0.04) 1px, transparent 1px);
+    background-image: linear-gradient(rgba(0,255,157,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,157,.04) 1px, transparent 1px);
     background-size: 40px 40px;
     mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
   }
-  .badge {
-    display: inline-block;
-    border: 1px solid var(--accent2);
-    color: var(--accent2); font-size: 0.7rem; letter-spacing: 0.2em;
-    padding: 0.3rem 0.9rem; margin-bottom: 1.5rem;
-    text-transform: uppercase;
-  }
-  h1 {
-    font-size: clamp(3rem, 10vw, 7rem);
-    font-weight: 900; letter-spacing: -0.02em; line-height: 1;
-    background: linear-gradient(135deg, #fff 30%, var(--accent) 70%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 0.5rem;
-  }
-  .hero-sub {
-    font-size: clamp(0.85rem, 2vw, 1.1rem);
-    color: var(--muted); max-width: 560px; line-height: 1.7;
-    margin: 1rem auto 2.5rem;
-  }
+  .badge { display: inline-block; border: 1px solid var(--accent2); color: var(--accent2); font-size: .7rem; letter-spacing: .2em; padding: .3rem .9rem; margin-bottom: 1.5rem; text-transform: uppercase; }
+  h1 { font-size: clamp(3rem, 10vw, 7rem); font-weight: 900; letter-spacing: -.02em; line-height: 1; background: linear-gradient(135deg, #fff 30%, var(--accent) 70%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: .5rem; }
+  .hero-sub { font-size: clamp(.85rem, 2vw, 1.1rem); color: var(--muted); max-width: 600px; line-height: 1.7; margin: 1rem auto 1.5rem; }
   .hero-sub strong { color: var(--accent); -webkit-text-fill-color: var(--accent); }
-  .hero-dates {
-    font-size: 0.75rem; letter-spacing: 0.2em; color: var(--muted);
-    margin-bottom: 2.5rem; text-transform: uppercase;
-  }
+  .hero-dates { font-size: .75rem; letter-spacing: .2em; color: var(--muted); margin-bottom: 2.5rem; text-transform: uppercase; }
   .hero-dates span { color: var(--accent3); }
-  .btn-primary {
-    display: inline-block;
-    background: var(--accent); color: var(--bg);
-    padding: 0.9rem 2.5rem; font-family: inherit;
-    font-size: 0.9rem; font-weight: 700; letter-spacing: 0.15em;
-    text-transform: uppercase; text-decoration: none;
-    border: none; cursor: pointer;
-    box-shadow: var(--glow); transition: all 0.2s;
-    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(0,255,157,0.6); }
-
-  /* ── COUNTDOWN ── */
-  #countdown {
-    display: flex; gap: 1.5rem; justify-content: center;
-    margin-top: 3rem; flex-wrap: wrap;
-  }
-  .cd-block {
-    display: flex; flex-direction: column; align-items: center;
-    min-width: 70px;
-  }
-  .cd-num {
-    font-size: 2.5rem; font-weight: 900; color: var(--accent);
-    text-shadow: var(--glow); line-height: 1;
-  }
-  .cd-label { font-size: 0.6rem; letter-spacing: 0.2em; color: var(--muted); margin-top: 0.3rem; }
-
-  /* ── SECTIONS SHARED ── */
+  .hero-phases { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
+  .phase-pill { border: 1px solid var(--border); padding: .4rem 1rem; font-size: .65rem; letter-spacing: .15em; color: var(--muted); text-transform: uppercase; }
+  .phase-pill.p1 { border-color: var(--accent); color: var(--accent); }
+  .phase-pill.p2 { border-color: var(--accent2); color: var(--accent2); }
+  .phase-pill.p3 { border-color: var(--accent3); color: var(--accent3); }
+  .btn-primary { display: inline-block; background: var(--accent); color: var(--bg); padding: .9rem 2.5rem; font-family: inherit; font-size: .9rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; box-shadow: var(--glow); transition: all .2s; clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 40px rgba(0,255,157,.6); }
   section { padding: 6rem 1.5rem; position: relative; }
   .container { max-width: 1100px; margin: 0 auto; }
-  .section-tag {
-    font-size: 0.65rem; letter-spacing: 0.3em; color: var(--accent);
-    text-transform: uppercase; margin-bottom: 0.75rem;
-  }
+  .section-tag { font-size: .65rem; letter-spacing: .3em; color: var(--accent); text-transform: uppercase; margin-bottom: .75rem; }
   .section-tag::before { content: '// '; color: var(--muted); }
-  h2 {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    font-weight: 800; line-height: 1.15; margin-bottom: 1.5rem;
-  }
-  .accent { color: var(--accent); }
-  .accent2 { color: var(--accent2); }
-  .accent3 { color: var(--accent3); }
-
-  /* ── PROBLEM ── */
-  #problem { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .problem-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem;
-  }
-  .problem-card {
-    border: 1px solid var(--border); padding: 1.75rem;
-    background: rgba(255,45,120,0.04);
-    position: relative; overflow: hidden;
-  }
-  .problem-card::before {
-    content: ''; position: absolute; top: 0; left: 0;
-    width: 3px; height: 100%; background: var(--accent3);
-  }
-  .problem-card h3 { font-size: 1rem; margin-bottom: 0.75rem; color: var(--accent3); }
-  .problem-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.7; }
-
-  /* ── THE HACK ── */
-  .hack-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem; margin-top: 3rem;
-  }
-  .hack-card {
-    border: 1px solid var(--border); padding: 2rem;
-    background: rgba(0,255,157,0.03);
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-  .hack-card:hover { border-color: var(--accent); box-shadow: var(--glow); }
-  .hack-icon { font-size: 2rem; margin-bottom: 1rem; }
-  .hack-card h3 { font-size: 1rem; margin-bottom: 0.6rem; color: var(--accent); }
-  .hack-card p { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
-
-  /* ── REGISTRATION ── */
+  h2 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; line-height: 1.15; margin-bottom: 1.5rem; }
+  .accent { color: var(--accent); } .accent2 { color: var(--accent2); } .accent3 { color: var(--accent3); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+  .grid-auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .card-red { border: 1px solid var(--border); padding: 1.75rem; background: rgba(255,45,120,.04); position: relative; overflow: hidden; }
+  .card-red::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--accent3); }
+  .card-red h3 { font-size: 1rem; margin-bottom: .75rem; color: var(--accent3); }
+  .card-red p { font-size: .85rem; color: var(--muted); line-height: 1.7; }
+  .card-green { border: 1px solid var(--border); padding: 2rem; background: rgba(0,255,157,.03); transition: border-color .2s, box-shadow .2s; }
+  .card-green:hover { border-color: var(--accent); box-shadow: var(--glow); }
+  .card-icon { font-size: 2rem; margin-bottom: 1rem; }
+  .card-green h3 { font-size: 1rem; margin-bottom: .6rem; color: var(--accent); }
+  .card-green p { font-size: .82rem; color: var(--muted); line-height: 1.7; }
+  .week-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.25rem; margin-top: 2.5rem; }
+  .week-card { border: 1px solid var(--border); padding: 1.5rem; background: rgba(0,255,157,.02); }
+  .week-num { font-size: .6rem; letter-spacing: .25em; color: var(--accent); text-transform: uppercase; margin-bottom: .2rem; }
+  .week-title { font-size: .82rem; font-weight: 700; color: var(--text); margin-bottom: .5rem; }
+  .week-task { font-size: .75rem; color: var(--muted); line-height: 1.6; margin-bottom: .5rem; }
+  .week-cook { font-size: .7rem; color: var(--accent3); border-left: 2px solid var(--accent3); padding-left: .6rem; line-height: 1.5; }
+  .phase-header { margin: 2.5rem 0 1rem; padding: .75rem 1rem; border: 1px solid var(--border); display: flex; align-items: center; gap: 1rem; }
+  .phase-header .ph-num { font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; padding: .2rem .6rem; border: 1px solid; }
+  .phase-header .ph-num.p1 { color: var(--accent); border-color: var(--accent); }
+  .phase-header .ph-num.p2 { color: var(--accent2); border-color: var(--accent2); }
+  .phase-header .ph-num.p3 { color: var(--accent3); border-color: var(--accent3); }
+  .phase-header .ph-title { font-size: .85rem; font-weight: 700; }
+  .phase-header .ph-sub { font-size: .72rem; color: var(--muted); }
   #registration { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  .reg-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem; margin-top: 3rem;
-  }
-  .reg-card {
-    border: 1px solid var(--border); padding: 2rem;
-    display: flex; flex-direction: column; gap: 1rem;
-    position: relative; transition: all 0.2s;
-  }
-  .reg-card.featured {
-    border-color: var(--accent2);
-    box-shadow: var(--glow2);
-    background: rgba(123,47,255,0.06);
-  }
-  .reg-card.featured::after {
-    content: 'POPULAR';
-    position: absolute; top: -1px; right: 1.5rem;
-    background: var(--accent2); color: #fff;
-    font-size: 0.6rem; letter-spacing: 0.2em; padding: 0.2rem 0.6rem;
-  }
-  .reg-type { font-size: 0.7rem; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
+  .reg-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .reg-card { border: 1px solid var(--border); padding: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+  .reg-type { font-size: .7rem; letter-spacing: .2em; color: var(--muted); text-transform: uppercase; }
   .reg-price { font-size: 2.2rem; font-weight: 900; color: var(--text); }
-  .reg-price span { font-size: 0.9rem; color: var(--muted); font-weight: 400; }
-  .reg-prize { font-size: 0.8rem; color: var(--accent); }
+  .reg-price span { font-size: .9rem; color: var(--muted); font-weight: 400; }
+  .reg-prize { font-size: .8rem; color: var(--accent); }
   .reg-prize strong { font-size: 1.1rem; }
-  .reg-features { list-style: none; font-size: 0.8rem; color: var(--muted); display: flex; flex-direction: column; gap: 0.4rem; }
+  .reg-features { list-style: none; font-size: .8rem; color: var(--muted); display: flex; flex-direction: column; gap: .4rem; }
   .reg-features li::before { content: '→ '; color: var(--accent); }
-  .reg-count {
-    font-size: 0.72rem; color: var(--accent);
-    border-top: 1px solid var(--border); padding-top: 0.75rem; margin-top: 0.25rem;
-  }
+  .reg-count { font-size: .72rem; color: var(--accent); border-top: 1px solid var(--border); padding-top: .75rem; }
   .reg-count span { font-weight: 700; }
-  .btn-reg {
-    margin-top: auto; padding: 0.75rem;
-    background: transparent; border: 1px solid currentColor;
-    font-family: inherit; font-size: 0.8rem; letter-spacing: 0.1em;
-    cursor: pointer; transition: all 0.2s; text-transform: uppercase;
-    text-decoration: none; text-align: center; display: block;
-  }
-  .btn-reg.green { color: var(--accent); }
-  .btn-reg.green:hover { background: var(--accent); color: var(--bg); box-shadow: var(--glow); }
-  .btn-reg.purple { color: var(--accent2); }
-  .btn-reg.purple:hover { background: var(--accent2); color: #fff; box-shadow: var(--glow2); }
-
-  /* ── PRIZES ── */
-  .prizes-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem; margin-top: 3rem;
-  }
-  .prize-card {
-    border: 1px solid var(--border); padding: 2rem; text-align: center;
-    background: rgba(123,47,255,0.04);
-  }
-  .prize-rank { font-size: 0.65rem; letter-spacing: 0.25em; color: var(--muted); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .prizes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .prize-card { border: 1px solid var(--border); padding: 2rem; text-align: center; background: rgba(123,47,255,.04); }
+  .prize-rank { font-size: .65rem; letter-spacing: .25em; color: var(--muted); text-transform: uppercase; margin-bottom: .5rem; }
   .prize-amount { font-size: 2.5rem; font-weight: 900; color: var(--accent2); text-shadow: var(--glow2); }
-  .prize-cat { font-size: 0.8rem; color: var(--muted); margin-top: 0.4rem; }
-
-  /* ── CTA ── */
-  #cta {
-    text-align: center;
-    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,255,157,0.06) 0%, transparent 70%);
-    border-top: 1px solid var(--border);
-  }
-  #cta h2 { margin-bottom: 1rem; }
-  #cta p { color: var(--muted); font-size: 0.85rem; max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.7; }
-
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--border); padding: 2rem 1.5rem;
-    text-align: center; font-size: 0.75rem; color: var(--muted);
-  }
-  footer span { color: var(--accent); }
-
-  /* ── TERMINAL BLINK ── */
-  .blink { animation: blink 1s step-end infinite; }
-  @keyframes blink { 50% { opacity: 0; } }
-
-  /* ── RESOURCE LINKS ── */
-  .res-link {
-    display: block; text-decoration: none;
-    padding: .75rem; border: 1px solid var(--border);
-    transition: border-color .15s, background .15s;
-  }
+  .prize-cat { font-size: .8rem; color: var(--muted); margin-top: .4rem; }
+  .res-link { display: block; text-decoration: none; padding: .75rem; border: 1px solid var(--border); transition: border-color .15s, background .15s; }
   .res-link:hover { border-color: var(--accent); background: rgba(0,255,157,.04); }
   .res-title { display: block; font-size: .8rem; font-weight: 700; color: var(--accent); margin-bottom: .3rem; }
-  .res-desc  { display: block; font-size: .72rem; color: var(--muted); line-height: 1.6; }
-
-  /* ── FAQ ── */
-  .faq-item {
-    border: 1px solid var(--border);
-    background: var(--surface);
-    padding: 1.25rem 1.5rem;
-    cursor: pointer;
-    transition: border-color 0.2s;
-  }
+  .res-desc { display: block; font-size: .72rem; color: var(--muted); line-height: 1.6; }
+  .faq-item { border: 1px solid var(--border); background: var(--surface); padding: 1.25rem 1.5rem; cursor: pointer; transition: border-color .2s; }
   .faq-item[open] { border-color: var(--accent2); }
-  .faq-item summary {
-    font-size: 0.88rem; font-weight: 700; color: var(--text);
-    list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
-  }
+  .faq-item summary { font-size: .88rem; font-weight: 700; color: var(--text); list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
   .faq-item summary::after { content: '+'; color: var(--accent2); font-size: 1.2rem; }
   .faq-item[open] summary::after { content: '−'; }
-  .faq-item p {
-    margin-top: 0.85rem; font-size: 0.82rem; color: var(--muted); line-height: 1.75;
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 640px) {
-    .problem-grid { grid-template-columns: 1fr; }
-    nav { padding: 1rem; }
-  }
+  .faq-item p { margin-top: .85rem; font-size: .82rem; color: var(--muted); line-height: 1.75; }
+  #cta { text-align: center; background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,255,157,.06) 0%, transparent 70%); border-top: 1px solid var(--border); }
+  #cta h2 { margin-bottom: 1rem; }
+  #cta p { color: var(--muted); font-size: .85rem; max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.7; }
+  footer { border-top: 1px solid var(--border); padding: 2rem 1.5rem; text-align: center; font-size: .75rem; color: var(--muted); }
+  footer span { color: var(--accent); }
+  .blink { animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (max-width: 640px) { .grid2 { grid-template-columns: 1fr; } nav { padding: 1rem; } .nav-links a:not(.nav-cta) { display: none; } }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo">GHOST<span>://</span>PROTOCOL</div>
-  <div style="display:flex;gap:1.5rem;align-items:center">
-    <a href="#hack" style="color:var(--muted);text-decoration:none;font-size:.75rem;letter-spacing:.1em">Challenge</a>
-    <a href="#judging" style="color:var(--muted);text-decoration:none;font-size:.75rem;letter-spacing:.1em">Judging</a>
-    <a href="#resources" style="color:var(--muted);text-decoration:none;font-size:.75rem;letter-spacing:.1em">Resources</a>
-    <a href="#prizes" style="color:var(--muted);text-decoration:none;font-size:.75rem;letter-spacing:.1em">Prizes</a>
-    <a href="#faq" style="color:var(--muted);text-decoration:none;font-size:.75rem;letter-spacing:.1em">FAQ</a>
+  <div class="nav-links">
+    <a href="#challenge">Challenge</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#judging">Judging</a>
+    <a href="#resources">Resources</a>
+    <a href="#prizes">Prizes</a>
+    <a href="#faq">FAQ</a>
     <a href="login.html" class="nav-cta">Onboard Now</a>
   </div>
 </nav>
@@ -306,127 +140,178 @@
 <!-- HERO -->
 <section id="hero">
   <div class="grid-bg"></div>
-  <div class="badge">FLINN Software Labs &nbsp;·&nbsp; Hackathon 2026</div>
+  <div class="badge">FLINN Software Labs &nbsp;·&nbsp; Fullstack Hackathon 2026</div>
   <h1>GHOST<br>PROTOCOL</h1>
   <p class="hero-sub">
-    <strong>Private-by-design micro-donations</strong> powered by Zero-Knowledge Proofs.
-    Fund what matters. Leave no trace.
+    <strong>12 weeks. 12 stacks. 3 phases.</strong><br>
+    The most technically demanding fullstack hackathon in Nigeria. Build real systems — from real-time engines to ZK privacy protocols to bare-metal web servers. Every week is a new stack. Every week is a new challenge.
   </p>
   <p class="hero-dates">
-    <span>July 1</span> — <span>July 31, 2026</span> &nbsp;·&nbsp; 31 Days of Cipher
+    <span>July 1</span> — <span>September 21, 2026</span> &nbsp;·&nbsp; 12 Weeks &nbsp;·&nbsp; 84 Days
   </p>
-  <a href="login.html" class="btn-primary">Onboard Now</a>
-
-  <div id="countdown">
-    <div class="cd-block"><div class="cd-num" id="cd-days">--</div><div class="cd-label">Days</div></div>
-    <div class="cd-block"><div class="cd-num" id="cd-hours">--</div><div class="cd-label">Hours</div></div>
-    <div class="cd-block"><div class="cd-num" id="cd-mins">--</div><div class="cd-label">Minutes</div></div>
-    <div class="cd-block"><div class="cd-num" id="cd-secs">--</div><div class="cd-label">Seconds</div></div>
+  <div class="hero-phases">
+    <div class="phase-pill p1">Phase 1 · Weeks 1–4 · Modern Scale</div>
+    <div class="phase-pill p2">Phase 2 · Weeks 5–8 · Privacy & Systems</div>
+    <div class="phase-pill p3">Phase 3 · Weeks 9–12 · Broken & Hard Logic</div>
   </div>
+  <a href="login.html" class="btn-primary">Onboard Now <span class="blink">_</span></a>
 </section>
 
-<!-- PROBLEM -->
-<section id="problem">
+<!-- THE PROBLEM -->
+<section id="problem" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
   <div class="container">
-    <p class="section-tag">The Problem</p>
-    <h2>Privacy is broken.<br><span class="accent3">You're going to fix it.</span></h2>
-    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:0.9rem;">
-      Every digital transaction leaves a trail. Donations, payments, transfers — all permanently recorded, 
-      linkable, and exploitable. The world needs engineers who can build systems where financial privacy 
-      is a guarantee, not a privilege. That's what Ghost Protocol is about.
+    <p class="section-tag">Why This Exists</p>
+    <h2>Software is eating the world.<br><span class="accent3">Most devs can't keep up.</span></h2>
+    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:.9rem;margin-bottom:3rem">
+      The gap between what Nigerian universities teach and what the industry demands is real. Most graduates can build a CRUD app. Very few can build a distributed system, a ZK circuit, a bare-metal server, or a real-time engine. Ghost Protocol exists to close that gap — by forcing you to build all of it.
     </p>
-    <div class="problem-grid">
-      <div class="problem-card">
-        <h3>🔍 On-chain Surveillance</h3>
-        <p>Public blockchains expose every transaction. Anyone can trace your wallet history, link your identity, and map your financial behaviour across time.</p>
-      </div>
-      <div class="problem-card">
-        <h3>🏦 KYC Overreach</h3>
-        <p>Traditional payment rails demand identity verification even for micro-donations, creating permanent records tied to sensitive causes and individuals.</p>
-      </div>
-      <div class="problem-card">
-        <h3>🕵️ Metadata Leakage</h3>
-        <p>Even when names are hidden, timestamps, amounts, and frequency patterns reveal detailed behavioural profiles that can be used against you.</p>
-      </div>
-      <div class="problem-card">
-        <h3>💀 Wallet Persistence</h3>
-        <p>Reusing wallets across transactions creates a permanent, linkable identity graph. Once linked, it never disappears — even if you want it to.</p>
-      </div>
+    <div class="grid2">
+      <div class="card-red"><h3>📚 Curriculum Gap</h3><p>University courses stop at data structures and basic web dev. The industry wants distributed systems, cryptography, and native performance. Nobody bridges that gap.</p></div>
+      <div class="card-red"><h3>🏗️ Tutorial Hell</h3><p>Most developers learn by copying tutorials. Ghost Protocol gives you a real problem, a real stack, and a real deadline. No hand-holding. No starter code.</p></div>
+      <div class="card-red"><h3>🌍 Global Competition</h3><p>Nigerian developers compete globally. The bar is set by engineers in San Francisco, Berlin, and Singapore. This hackathon prepares you to meet that bar.</p></div>
+      <div class="card-red"><h3>💰 Untapped Talent</h3><p>The prize money is real. The recognition is real. The internship fast-tracks are real. This is your opportunity to prove what you can build.</p></div>
     </div>
   </div>
 </section>
 
 <!-- THE CHALLENGE -->
-<section id="hack">
+<section id="challenge">
   <div class="container">
     <p class="section-tag">The Challenge</p>
-    <h2>Build a privacy protocol.<br><span class="accent">From scratch.</span></h2>
-    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:0.9rem;">
-      Your mission is to design and implement a <strong style="color:var(--text)">Zero-Knowledge micro-donation application</strong> — 
-      a system where a donor can prove they made a valid donation without revealing their identity, the amount, or the recipient. 
-      You will build the ZK circuits, the privacy protocol, and a working interface. This is not a tutorial project. 
-      This is real engineering.
+    <h2>One new stack.<br><span class="accent">Every week. For 12 weeks.</span></h2>
+    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:.9rem;margin-bottom:1rem">
+      Each week you receive a new tech stack and a new problem. You have 7 days to build a working solution, document it, and demo it. The problems escalate in difficulty. By Week 12 you will be writing inline assembly to optimise a ZK cryptographic hash function. This is not a beginner hackathon.
     </p>
-    <div class="hack-grid">
-      <div class="hack-card">
-        <div class="hack-icon">🔐</div>
-        <h3>ZK-Proof Circuits</h3>
-        <p>Design and implement Zero-Knowledge proof circuits using Rust or your preferred ZK framework (Circom, Noir, RISC Zero). Prove validity without revealing data.</p>
+    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:.9rem;margin-bottom:3rem">
+      You can use any preferred stack for the application layer — the weekly stack is the constraint for the core challenge. Fullstack means you own the entire system: backend, frontend, infrastructure, and everything in between.
+    </p>
+    <div class="grid-auto">
+      <div class="card-green"><div class="card-icon">⚡</div><h3>Real-Time Systems</h3><p>WebSockets, pub/sub, actor models, and distributed state. Build systems that handle thousands of concurrent users without dropping a message.</p></div>
+      <div class="card-green"><div class="card-icon">🔐</div><h3>Privacy & Cryptography</h3><p>ZK proofs, commitment schemes, nullifiers, and end-to-end encryption. Build systems where privacy is a mathematical guarantee.</p></div>
+      <div class="card-green"><div class="card-icon">🦀</div><h3>Systems Programming</h3><p>Rust, Zig, C++, and inline assembly. Write code that runs at the metal. No garbage collector. No safety net.</p></div>
+      <div class="card-green"><div class="card-icon">☁️</div><h3>Cloud & Infrastructure</h3><p>Terraform, Kubernetes, and multi-region deployments. Build infrastructure that survives region failures and scales automatically.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="container">
+    <p class="section-tag">Timeline</p>
+    <h2>12 weeks. <span class="accent">3 phases.</span></h2>
+    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:.9rem;margin-bottom:1rem">
+      July 1 — September 21, 2026. Each week opens on Monday and closes on Sunday. Submit your PDF report, GitHub repo, and YouTube demo before the window closes.
+    </p>
+
+    <div class="phase-header">
+      <span class="ph-num p1">Phase 1</span>
+      <div><div class="ph-title">The Modern Scale — Weeks 1–4</div><div class="ph-sub">Focus: Speed, Type Safety, and Concurrent User Experiences</div></div>
+    </div>
+    <div class="week-grid">
+      <div class="week-card">
+        <div class="week-num">Week 1 · July 1–7</div>
+        <div class="week-title">Go + Fiber + SvelteKit + Redis</div>
+        <div class="week-task">Build a live bidding/auction engine with real-time price updates.</div>
+        <div class="week-cook">The Cook: Managing WebSocket state across multiple Go instances while keeping the Svelte UI reactively updated without lag.</div>
       </div>
-      <div class="hack-card">
-        <div class="hack-icon">🔒</div>
-        <h3>Privacy Protocol Design</h3>
-        <p>Architect a protocol that handles commitment schemes, nullifiers, and merkle proofs. Your protocol must be formally sound — not just functional.</p>
+      <div class="week-card">
+        <div class="week-num">Week 2 · July 8–14</div>
+        <div class="week-title">Next.js + NestJS + PostgreSQL + Prisma</div>
+        <div class="week-task">A multi-tenant SaaS platform with complex RBAC and dynamic schema generation.</div>
+        <div class="week-cook">The Cook: Handling deep-nested SQL relations and cache invalidation across a serverless frontend.</div>
       </div>
-      <div class="hack-card">
-        <div class="hack-icon">💨</div>
-        <h3>Disposable Identity Layer</h3>
-        <p>Implement one-time wallet generation and destruction. No persistent identity. No linkability between transactions. No trace after execution.</p>
+      <div class="week-card">
+        <div class="week-num">Week 3 · July 15–21</div>
+        <div class="week-title">Flutter + Elixir/Phoenix + SQLite</div>
+        <div class="week-task">A field-agent app that works in zero-connectivity zones and performs CRDT-based merge when back online.</div>
+        <div class="week-cook">The Cook: If two agents edit the same data offline, the merge must be perfect. No data loss. No conflicts.</div>
       </div>
-      <div class="hack-card">
-        <div class="hack-icon">🌐</div>
-        <h3>Working Application</h3>
-        <p>Ship a functional end-to-end application — not just a whitepaper. Users must be able to donate privately through your interface. Demo it. Defend it.</p>
+      <div class="week-card">
+        <div class="week-num">Week 4 · July 22–28</div>
+        <div class="week-title">C++ / Drogon + WebAssembly + React</div>
+        <div class="week-task">A browser-based video/audio editor with heavy processing handled in WASM.</div>
+        <div class="week-cook">The Cook: Compiling C++ to WASM while maintaining a smooth React UI. Memory management is your problem now.</div>
+      </div>
+    </div>
+
+    <div class="phase-header" style="margin-top:2.5rem">
+      <span class="ph-num p2">Phase 2</span>
+      <div><div class="ph-title">Privacy & Systems Architecture — Weeks 5–8</div><div class="ph-sub">Focus: Security, Memory, and Native Performance</div></div>
+    </div>
+    <div class="week-grid">
+      <div class="week-card">
+        <div class="week-num">Week 5 · July 29 – Aug 4</div>
+        <div class="week-title">Rust + Tauri + Vue.js</div>
+        <div class="week-task">A peer-to-peer file sharing client with end-to-end local encryption.</div>
+        <div class="week-cook">The Cook: Bridging Rust memory safety with the Vue.js event loop without causing bottlenecks.</div>
+      </div>
+      <div class="week-card">
+        <div class="week-num">Week 6 · Aug 5–11</div>
+        <div class="week-title">Haskell / IHP Framework + HTMX</div>
+        <div class="week-task">A high-integrity financial ledger system with no JSON APIs.</div>
+        <div class="week-cook">The Cook: Using Haskell's type-safety to push HTML fragments directly. One type error in the DB kills the build.</div>
+      </div>
+      <div class="week-card">
+        <div class="week-num">Week 7 · Aug 12–18</div>
+        <div class="week-title">Swift / Kotlin Native + Ktor</div>
+        <div class="week-task">A low-latency biometric authentication system using native hardware.</div>
+        <div class="week-cook">The Cook: Managing native Camera/FaceID hardware and piping that data through a high-performance Kotlin backend.</div>
+      </div>
+      <div class="week-card">
+        <div class="week-num">Week 8 · Aug 19–25</div>
+        <div class="week-title">Noir / Aztec + Rust + Next.js</div>
+        <div class="week-task">A private voting platform. ZK proof generated client-side, verified on a Rust backend.</div>
+        <div class="week-cook">The Cook: Most will fail here due to proof-generation time and browser memory limits. Optimise or die.</div>
+      </div>
+    </div>
+
+    <div class="phase-header" style="margin-top:2.5rem">
+      <span class="ph-num p3">Phase 3</span>
+      <div><div class="ph-title">The Broken & Hard Logic — Weeks 9–12</div><div class="ph-sub">Focus: Low-level logic, Assembly, and Distributed Chaos</div></div>
+    </div>
+    <div class="week-grid">
+      <div class="week-card">
+        <div class="week-num">Week 9 · Aug 26 – Sep 1</div>
+        <div class="week-title">Scala + Akka + Angular</div>
+        <div class="week-task">A self-scaling social graph that re-shards its own database based on traffic patterns.</div>
+        <div class="week-cook">The Cook: The actor model in Scala. If one actor dies, does the whole system cascade?</div>
+      </div>
+      <div class="week-card">
+        <div class="week-num">Week 10 · Sep 2–8</div>
+        <div class="week-title">Zig + Custom HTTP Server + Vanilla JS</div>
+        <div class="week-task">Build a web server from scratch in Zig that serves a dashboard. No third-party libraries.</div>
+        <div class="week-cook">The Cook: No npm install. You write the headers, the buffers, and the TCP handling yourself.</div>
+      </div>
+      <div class="week-card">
+        <div class="week-num">Week 11 · Sep 9–15</div>
+        <div class="week-title">Terraform + Kubernetes + Go + React</div>
+        <div class="week-task">Deploy a globally distributed app across 3 regions with automated failover and 99.99% uptime.</div>
+        <div class="week-cook">The Cook: The judge kills one of your cloud regions. Your app must recover in under 5 seconds.</div>
+      </div>
+      <div class="week-card">
+        <div class="week-num">Week 12 · Sep 16–21</div>
+        <div class="week-title">Inline Assembly + Rust + WASM + SolidJS</div>
+        <div class="week-task">Take the ZK protocol from Week 8 and optimise the cryptographic hashing using inline assembly to make it 5x faster.</div>
+        <div class="week-cook">The Cook: One wrong move in assembly causes a total system crash. This is the final validation.</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- JUDGING -->
-<section id="judging" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+<section id="judging">
   <div class="container">
     <p class="section-tag">Judging Criteria</p>
-    <h2>How you'll be <span class="accent">evaluated.</span></h2>
-    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:0.9rem;margin-bottom:3rem;">
-      Judging follows a full academic presentation standard — think final year project defence, but with real money on the line. 
-      Every round is scored out of 100.
+    <h2>Scored like a <span class="accent">project defence.</span></h2>
+    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:.9rem;margin-bottom:3rem">
+      Every round is scored out of 100 by FLINN Software Labs judges. The standard is a Nigerian university final year project defence — technical depth, presentation, appearance, and a working demo all count.
     </p>
-    <div class="hack-grid">
-      <div class="hack-card">
-        <div class="hack-icon">🧠</div>
-        <h3>Technical Depth (30pts)</h3>
-        <p>How well do you understand the cryptography behind your solution? Can you explain your ZK circuits, your protocol choices, and your security assumptions?</p>
-      </div>
-      <div class="hack-card">
-        <div class="hack-icon">⚙️</div>
-        <h3>Implementation Quality (25pts)</h3>
-        <p>Is your code clean, well-structured, and actually working? GitHub repo quality, test coverage, and code organisation all count.</p>
-      </div>
-      <div class="hack-card">
-        <div class="hack-icon">🎯</div>
-        <h3>Innovation & Originality (20pts)</h3>
-        <p>Did you go beyond the basics? Novel protocol design, creative privacy mechanisms, or unique application of ZK proofs will be rewarded.</p>
-      </div>
-      <div class="hack-card">
-        <div class="hack-icon">🎤</div>
-        <h3>Presentation & Defence (15pts)</h3>
-        <p>Can you present your work clearly and defend it under questioning? Appearance, communication, and confidence matter — just like a project defence.</p>
-      </div>
-      <div class="hack-card">
-        <div class="hack-icon">🖥️</div>
-        <h3>Working Demo (10pts)</h3>
-        <p>A live, functional demo submitted via YouTube. The system must work end-to-end. A broken demo costs you these points entirely.</p>
-      </div>
+    <div class="grid-auto">
+      <div class="card-green"><div class="card-icon">🧠</div><h3>Technical Depth (30pts)</h3><p>Do you understand the system you built? Can you explain your architecture, your protocol choices, and your security assumptions under questioning?</p></div>
+      <div class="card-green"><div class="card-icon">⚙️</div><h3>Implementation Quality (25pts)</h3><p>Clean code, working tests, structured GitHub repo. If it doesn't run, you lose these points. Code quality is judged like a senior engineer would review it.</p></div>
+      <div class="card-green"><div class="card-icon">🎯</div><h3>Innovation & Originality (20pts)</h3><p>Did you go beyond the spec? Novel architecture, creative solutions, or unique application of the required stack will be rewarded.</p></div>
+      <div class="card-green"><div class="card-icon">🎤</div><h3>Presentation & Defence (15pts)</h3><p>Appearance, communication, and confidence matter. Present your work clearly. Defend it under questioning. This is a project defence, not a code review.</p></div>
+      <div class="card-green"><div class="card-icon">🖥️</div><h3>Working Demo (10pts)</h3><p>A live YouTube demo showing the system working end-to-end. A broken demo costs you all 10 points. Record it properly.</p></div>
     </div>
   </div>
 </section>
@@ -436,37 +321,36 @@
   <div class="container">
     <p class="section-tag">Registration</p>
     <h2>Choose your<br><span class="accent2">entry vector.</span></h2>
+    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:.9rem;margin-bottom:1rem">
+      Register once. Compete for all 12 weeks. Your cumulative score across all rounds determines your final ranking.
+    </p>
     <div class="reg-grid">
-
-      <!-- Lone Player -->
       <div class="reg-card">
         <p class="reg-type">Lone Player</p>
         <div class="reg-price">₦2,500 <span>/ entry</span></div>
         <div class="reg-prize">Prize Pool: <strong>₦5,000,000</strong></div>
         <ul class="reg-features">
           <li>Solo hacker track</li>
-          <li>Full judging access</li>
+          <li>Full judging access all 12 rounds</li>
           <li>Certificate of participation</li>
           <li>FLINN dev community access</li>
+          <li>Internship fast-track eligibility</li>
         </ul>
         <div class="reg-count"><span id="count-lone">—</span> contestants registered</div>
       </div>
-
-      <!-- Team of 4 -->
       <div class="reg-card">
         <p class="reg-type">Team of 4</p>
         <div class="reg-price">₦10,000 <span>/ team</span></div>
         <div class="reg-prize">Prize Pool: <strong>₦9,000,000</strong></div>
         <ul class="reg-features">
           <li>Up to 4 members</li>
-          <li>Collaborative workspace</li>
+          <li>Shared team leaderboard</li>
           <li>Mentor office hours</li>
           <li>Priority judging slot</li>
+          <li>Team code for member joining</li>
         </ul>
         <div class="reg-count"><span id="count-team4">—</span> members registered</div>
       </div>
-
-      <!-- Team of 10 -->
       <div class="reg-card">
         <p class="reg-type">Team of 10</p>
         <div class="reg-price">₦20,000 <span>/ team</span></div>
@@ -476,10 +360,10 @@
           <li>Dedicated Slack channel</li>
           <li>Enterprise mentor access</li>
           <li>Demo day spotlight</li>
+          <li>Team code for member joining</li>
         </ul>
         <div class="reg-count"><span id="count-team10">—</span> members registered</div>
       </div>
-
     </div>
   </div>
 </section>
@@ -490,25 +374,11 @@
     <p class="section-tag">Prizes</p>
     <h2>The <span class="accent2">bounty</span> awaits.</h2>
     <div class="prizes-grid">
-      <div class="prize-card">
-        <p class="prize-rank">Lone Player — 1st Place</p>
-        <div class="prize-amount">₦5M</div>
-        <p class="prize-cat">Solo Track Winner</p>
-      </div>
-      <div class="prize-card">
-        <p class="prize-rank">Team of 4 — 1st Place</p>
-        <div class="prize-amount">₦9M</div>
-        <p class="prize-cat">Small Team Track Winner</p>
-      </div>
-      <div class="prize-card">
-        <p class="prize-rank">Team of 10 — 1st Place</p>
-        <div class="prize-amount">₦13M</div>
-        <p class="prize-cat">Large Team Track Winner</p>
-      </div>
+      <div class="prize-card"><p class="prize-rank">Lone Player — 1st Place</p><div class="prize-amount">₦5M</div><p class="prize-cat">Solo Track Winner</p></div>
+      <div class="prize-card"><p class="prize-rank">Team of 4 — 1st Place</p><div class="prize-amount">₦9M</div><p class="prize-cat">Small Team Track Winner</p></div>
+      <div class="prize-card"><p class="prize-rank">Team of 10 — 1st Place</p><div class="prize-amount">₦13M</div><p class="prize-cat">Large Team Track Winner</p></div>
     </div>
-    <p style="margin-top:2rem;font-size:0.75rem;color:var(--muted);">
-      * Additional runner-up prizes, swag, and FLINN Labs internship fast-tracks available across all categories.
-    </p>
+    <p style="margin-top:2rem;font-size:.75rem;color:var(--muted)">* Additional runner-up prizes, swag, and FLINN Labs internship fast-tracks available across all categories.</p>
   </div>
 </section>
 
@@ -517,128 +387,162 @@
   <div class="container">
     <p class="section-tag">Resources</p>
     <h2>Your arsenal. <span class="accent">All 12 weeks.</span></h2>
-    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:0.9rem;margin-bottom:3rem;">Curated docs and references for every week. Bookmark what you need. Build what matters.</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem">
-      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
-        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 1</p>
-        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Go + Fiber + SvelteKit + Redis</p>
-        <div style="display:flex;flex-direction:column;gap:.75rem">
-          <a href="https://docs.gofiber.io" target="_blank" class="res-link"><span class="res-title">Go Fiber Docs</span><span class="res-desc">WebSocket middleware, routing, and middleware chains for the auction engine.</span></a>
-          <a href="https://kit.svelte.dev/docs" target="_blank" class="res-link"><span class="res-title">SvelteKit Documentation</span><span class="res-desc">Reactive stores, SSR, and real-time patterns for the live bidding UI.</span></a>
-          <a href="https://redis.io/docs/latest/" target="_blank" class="res-link"><span class="res-title">Redis Documentation</span><span class="res-desc">Pub/Sub and streams for distributed WebSocket state coordination.</span></a>
+    <p style="color:var(--muted);max-width:640px;line-height:1.7;font-size:.9rem;margin-bottom:3rem">Curated docs and references for every week. Bookmark what you need. Build what matters.</p>
+    <div class="week-grid">
+      <div class="week-card">
+        <div class="week-num">Week 1</div><div class="week-title">Go + Fiber + SvelteKit + Redis</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+          <a href="https://docs.gofiber.io" target="_blank" class="res-link"><span class="res-title">Go Fiber Docs</span><span class="res-desc">WebSocket middleware and routing for the auction engine.</span></a>
+          <a href="https://kit.svelte.dev/docs" target="_blank" class="res-link"><span class="res-title">SvelteKit Documentation</span><span class="res-desc">Reactive stores and real-time patterns.</span></a>
+          <a href="https://redis.io/docs/latest/" target="_blank" class="res-link"><span class="res-title">Redis Documentation</span><span class="res-desc">Pub/Sub and streams for distributed WebSocket state.</span></a>
         </div>
       </div>
-      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
-        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 2</p>
-        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Next.js + NestJS + PostgreSQL + Prisma</p>
-        <div style="display:flex;flex-direction:column;gap:.75rem">
-          <a href="https://docs.nestjs.com" target="_blank" class="res-link"><span class="res-title">NestJS Documentation</span><span class="res-desc">Guards, interceptors, and RBAC patterns. The Guards section is critical for multi-tenant auth.</span></a>
-          <a href="https://www.prisma.io/docs" target="_blank" class="res-link"><span class="res-title">Prisma ORM Docs</span><span class="res-desc">Multi-tenant patterns, Client Extensions, and Row-Level Security with PostgreSQL.</span></a>
-          <a href="https://nextjs.org/docs" target="_blank" class="res-link"><span class="res-title">Next.js Documentation</span><span class="res-desc">App Router, middleware, and serverless deployment patterns for SaaS frontends.</span></a>
+      <div class="week-card">
+        <div class="week-num">Week 2</div><div class="week-title">Next.js + NestJS + PostgreSQL + Prisma</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+          <a href="https://docs.nestjs.com" target="_blank" class="res-link"><span class="res-title">NestJS Documentation</span><span class="res-desc">Guards, interceptors, and RBAC patterns.</span></a>
+          <a href="https://www.prisma.io/docs" target="_blank" class="res-link"><span class="res-title">Prisma ORM Docs</span><span class="res-desc">Multi-tenant patterns and Row-Level Security.</span></a>
+          <a href="https://nextjs.org/docs" target="_blank" class="res-link"><span class="res-title">Next.js Documentation</span><span class="res-desc">App Router and serverless deployment patterns.</span></a>
         </div>
       </div>
-      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
-        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 3</p>
-        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Flutter + Elixir/Phoenix + SQLite + CRDTs</p>
-        <div style="display:flex;flex-direction:column;gap:.75rem">
-          <a href="https://docs.flutter.dev/app-architecture/design-patterns/offline-first" target="_blank" class="res-link"><span class="res-title">Flutter Offline-First Patterns</span><span class="res-desc">Official Flutter guide on offline architecture, local persistence, and sync strategies.</span></a>
-          <a href="https://hexdocs.pm/phoenix/overview.html" target="_blank" class="res-link"><span class="res-title">Phoenix Framework Docs</span><span class="res-desc">Channels and Presence for real-time sync when agents come back online.</span></a>
-          <a href="https://crdt.tech" target="_blank" class="res-link"><span class="res-title">CRDT.tech</span><span class="res-desc">Papers, implementations, and explanations of Conflict-free Replicated Data Types. Start here.</span></a>
+      <div class="week-card">
+        <div class="week-num">Week 3</div><div class="week-title">Flutter + Elixir/Phoenix + SQLite + CRDTs</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+          <a href="https://docs.flutter.dev/app-architecture/design-patterns/offline-first" target="_blank" class="res-link"><span class="res-title">Flutter Offline-First Patterns</span><span class="res-desc">Official Flutter offline architecture guide.</span></a>
+          <a href="https://hexdocs.pm/phoenix/overview.html" target="_blank" class="res-link"><span class="res-title">Phoenix Framework Docs</span><span class="res-desc">Channels and Presence for real-time sync.</span></a>
+          <a href="https://crdt.tech" target="_blank" class="res-link"><span class="res-title">CRDT.tech</span><span class="res-desc">Papers and implementations of CRDTs. Start here.</span></a>
         </div>
       </div>
-      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
-        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 4</p>
-        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">C++ / Drogon + WebAssembly + React</p>
-        <div style="display:flex;flex-direction:column;gap:.75rem">
-          <a href="https://emscripten.org/docs/getting_started/index.html" target="_blank" class="res-link"><span class="res-title">Emscripten Documentation</span><span class="res-desc">Compile C/C++ to WebAssembly. The toolchain you need to get C++ running in the browser.</span></a>
-          <a href="https://drogon.docsforge.com" target="_blank" class="res-link"><span class="res-title">Drogon C++ Framework</span><span class="res-desc">High-performance async C++ web framework for the backend API layer.</span></a>
-          <a href="https://webassembly.org/docs/use-cases/" target="_blank" class="res-link"><span class="res-title">WebAssembly Official Docs</span><span class="res-desc">WASM concepts, memory model, and browser integration. Read before writing a .wasm file.</span></a>
+      <div class="week-card">
+        <div class="week-num">Week 4</div><div class="week-title">C++ / Drogon + WebAssembly + React</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+          <a href="https://emscripten.org/docs/getting_started/index.html" target="_blank" class="res-link"><span class="res-title">Emscripten Documentation</span><span class="res-desc">Compile C/C++ to WebAssembly.</span></a>
+          <a href="https://drogon.docsforge.com" target="_blank" class="res-link"><span class="res-title">Drogon C++ Framework</span><span class="res-desc">High-performance async C++ web framework.</span></a>
+          <a href="https://webassembly.org/docs/use-cases/" target="_blank" class="res-link"><span class="res-title">WebAssembly Official Docs</span><span class="res-desc">WASM concepts and browser memory model.</span></a>
         </div>
       </div>
-      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
-        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 5</p>
-        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Rust + Tauri + Vue.js</p>
-        <div style="display:flex;flex-direction:column;gap:.75rem">
-          <a href="https://tauri.app/start/" target="_blank" class="res-link"><span class="res-title">Tauri 2.0 Documentation</span><span class="res-desc">Desktop apps with Rust backend and web frontend. IPC, commands, and events.</span></a>
-          <a href="https://vuejs.org/guide/introduction" target="_blank" class="res-link"><span class="res-title">Vue.js Documentation</span><span class="res-desc">Composition API, reactivity system, and Pinia state management.</span></a>
-          <a href="https://doc.rust-lang.org/book/" target="_blank" class="res-link"><span class="res-title">The Rust Book</span><span class="res-desc">Ownership, borrowing, and memory safety. Chapters 4, 15, and 16 are essential for Tauri.</span></a>
+      <div class="week-card">
+        <div class="week-num">Week 5</div><div class="week-title">Rust + Tauri + Vue.js</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+          <a href="https://tauri.app/start/" target="_blank" class="res-link"><span class="res-title">Tauri 2.0 Documentation</span><span class="res-desc">Desktop apps with Rust backend. IPC and commands.</span></a>
+          <a href="https://vuejs.org/guide/introduction" target="_blank" class="res-link"><span class="res-title">Vue.js Documentation</span><span class="res-desc">Composition API and Pinia state management.</span></a>
+          <a href="https://doc.rust-lang.org/book/" target="_blank" class="res-link"><span class="res-title">The Rust Book</span><span class="res-desc">Ownership and memory safety. Chapters 4, 15, 16.</span></a>
         </div>
       </div>
-      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
-        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 6</p>
-        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Haskell / IHP + HTMX</p>
-        <div style="display:flex;flex-direction:column;gap:.75rem">
-          <a href="https://ihp.digitallyinduced.com/Guide/index.html" target="_blank" class="res-link"><span class="res-title">IHP Framework Guide</span><span class="res-desc">Type-safe Haskell web framework. One type error kills the build � by design.</span></a>
-          <a href="https://htmx.org/docs/" target="_blank" class="res-link"><span class="res-title">HTMX Documentation</span><span class="res-desc">HTML-over-the-wire. No JSON APIs. Server returns HTML fragments directly.</span></a>
-          <a href="https://learnyouahaskell.com" target="_blank" class="res-link"><span class="res-title">Learn You a Haskell</span><span class="res-desc">Free Haskell book. If you have never written Haskell, start here before touching IHP.</span></a>
+      <div class="week-card">
+        <div class="week-num">Week 6</div><div class="week-title">Haskell / IHP + HTMX</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+          <a href="https://ihp.digitallyinduced.com/Guide/index.html" target="_blank" class="res-link"><span class="res-title">IHP Framework Guide</span><span class="res-desc">Type-safe Haskell web framework. One type error kills the build.</span></a>
+          <a href="https://htmx.org/docs/" target="_blank" class="res-link"><span class="res-title">HTMX Documentation</span><span class="res-desc">HTML-over-the-wire. No JSON APIs.</span></a>
+          <a href="https://learnyouahaskell.com" target="_blank" class="res-link"><span class="res-title">Learn You a Haskell</span><span class="res-desc">Free Haskell book. Start here before touching IHP.</span></a>
         </div>
       </div>
-      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
-        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 7</p>
-        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Swift / Kotlin Native + Ktor</p>
-        <div style="display:flex;flex-direction:column;gap:.75rem">
-          <a href="https://ktor.io/docs/server-create-a-new-project.html" target="_blank" class="res-link"><span class="res-title">Ktor Server Documentation</span><span class="res-desc">Kotlin async HTTP server. Authentication plugin, routing, and WebSocket support.</span></a>
-          <a href="https://developer.apple.com/documentation/localauthentication" target="_blank" class="res-link"><span class="res-title">Apple LocalAuthentication Docs</span><span class="res-desc">FaceID and TouchID APIs for iOS. LAContext, biometric policy, and error handling.</span></a>
-          <a href="https://developer.android.com/training/sign-in/biometric-auth" target="_blank" class="res-link"><span class="res-title">Android Biometric API</span><span class="res-desc">BiometricPrompt, CryptoObject, and secure key storage for Android biometric auth.</span></a>
+      <div class="week-card">
+        <div class="week-num">Week 7</div><div class="week-title">Swift / Kotlin Native + Ktor</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+          <a href="https://ktor.io/docs/server-create-a-new-project.html" target="_blank" class="res-link"><span class="res-title">Ktor Server Documentation</span><span class="res-desc">Kotlin async HTTP server with auth plugin.</span></a>
+          <a href="https://developer.apple.com/documentation/localauthentication" target="_blank" class="res-link"><span class="res-title">Apple LocalAuthentication</span><span class="res-desc">FaceID and TouchID APIs for iOS.</span></a>
+          <a href="https://developer.android.com/training/sign-in/biometric-auth" target="_blank" class="res-link"><span class="res-title">Android Biometric API</span><span class="res-desc">BiometricPrompt and CryptoObject for Android.</span></a>
         </div>
       </div>
-      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
-        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 8</p>
-        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Noir / Aztec + Rust + Next.js</p>
-        <div style="display:flex;flex-direction:column;gap:.75rem">
-          <a href="https://noir-lang.org/docs" target="_blank" class="res-link"><span class="res-title">Noir Language Docs</span><span class="res-desc">ZK circuit language for private voting. Client-side proof generation is the hard part.</span></a>
-          <a href="https://docs.aztec.network" target="_blank" class="res-link"><span class="res-title">Aztec Network Docs</span><span class="res-desc">Private state, notes, and nullifiers for voting systems.</span></a>
-          <a href="https://docs.zksync.io/zksync-protocol/era-vm/circuits" target="_blank" class="res-link"><span class="res-title">ZKsync Circuit Architecture</span><span class="res-desc">How production ZK circuits are structured. Essential context before building your own.</span></a>
+      <div class="week-card">
+        <div class="week-num">Week 8</div><div class="week-title">Noir / Aztec + Rust + Next.js</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+          <a href="https://noir-lang.org/docs" target="_blank" class="res-link"><span class="res-title">Noir Language Docs</span><span class="res-desc">ZK circuit language. Client-side proof generation.</span></a>
+          <a href="https://docs.aztec.network" target="_blank" class="res-link"><span class="res-title">Aztec Network Docs</span><span class="res-desc">Private state, notes, and nullifiers.</span></a>
+          <a href="https://docs.zksync.io/zksync-protocol/era-vm/circuits" target="_blank" class="res-link"><span class="res-title">ZKsync Circuit Architecture</span><span class="res-desc">How production ZK circuits are structured.</span></a>
         </div>
       </div>
-      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
-        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 9</p>
-        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Scala + Akka + Angular</p>
-        <div style="display:flex;flex-direction:column;gap:.75rem">
-          <a href="https://doc.akka.io/docs/akka/current/typed/cluster-sharding.html" target="_blank" class="res-link"><span class="res-title">Akka Cluster Sharding</span><span class="res-desc">Distribute actors across nodes. Actor supervision and failure recovery docs are critical.</span></a>
-          <a href="https://docs.scala-lang.org/tour/tour-of-scala.html" target="_blank" class="res-link"><span class="res-title">Tour of Scala</span><span class="res-desc">Case classes, pattern matching, and futures � all needed for Akka actor systems.</span></a>
-          <a href="https://angular.dev/overview" target="_blank" class="res-link"><span class="res-title">Angular Documentation</span><span class="res-desc">Signals, RxJS, and control flow for building reactive social graph UIs.</span></a>
+      <div class="week-card">
+        <div class="week-num">Week 9</div><div class="week-title">Scala + Akka + Angular</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+          <a href="https://doc.akka.io/docs/akka/current/typed/cluster-sharding.html" target="_blank" class="res-link"><span class="res-title">Akka Cluster Sharding</span><span class="res-desc">Distribute actors across nodes. Supervision and recovery.</span></a>
+          <a href="https://docs.scala-lang.org/tour/tour-of-scala.html" target="_blank" class="res-link"><span class="res-title">Tour of Scala</span><span class="res-desc">Case classes, pattern matching, and futures.</span></a>
+          <a href="https://angular.dev/overview" target="_blank" class="res-link"><span class="res-title">Angular Documentation</span><span class="res-desc">Signals, RxJS, and reactive UI patterns.</span></a>
         </div>
       </div>
-      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
-        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 10</p>
-        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Zig + Custom HTTP Server + Vanilla JS</p>
-        <div style="display:flex;flex-direction:column;gap:.75rem">
-          <a href="https://ziglang.org/documentation/master/" target="_blank" class="res-link"><span class="res-title">Zig Language Reference</span><span class="res-desc">Memory management, comptime, and std.net for raw TCP/HTTP handling. No libraries.</span></a>
-          <a href="https://blog.orhun.dev/zig-bits-04/" target="_blank" class="res-link"><span class="res-title">Building HTTP from Scratch in Zig</span><span class="res-desc">Practical walkthrough of an HTTP server using only Zig standard library.</span></a>
-          <a href="https://www.openmymind.net/TCP-Server-In-Zig-Part-1-Single-Threaded/" target="_blank" class="res-link"><span class="res-title">TCP Server in Zig � Series</span><span class="res-desc">Single-threaded to multi-threaded TCP in Zig. The foundation for your HTTP layer.</span></a>
+      <div class="week-card">
+        <div class="week-num">Week 10</div><div class="week-title">Zig + Custom HTTP Server + Vanilla JS</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+          <a href="https://ziglang.org/documentation/master/" target="_blank" class="res-link"><span class="res-title">Zig Language Reference</span><span class="res-desc">Memory management and std.net for raw TCP/HTTP.</span></a>
+          <a href="https://blog.orhun.dev/zig-bits-04/" target="_blank" class="res-link"><span class="res-title">HTTP from Scratch in Zig</span><span class="res-desc">Practical walkthrough using only Zig stdlib.</span></a>
+          <a href="https://www.openmymind.net/TCP-Server-In-Zig-Part-1-Single-Threaded/" target="_blank" class="res-link"><span class="res-title">TCP Server in Zig — Series</span><span class="res-desc">Single to multi-threaded TCP. Foundation for HTTP.</span></a>
         </div>
       </div>
-      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
-        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 11</p>
-        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Terraform + Kubernetes + Go + React</p>
-        <div style="display:flex;flex-direction:column;gap:.75rem">
-          <a href="https://developer.hashicorp.com/terraform/docs" target="_blank" class="res-link"><span class="res-title">Terraform Documentation</span><span class="res-desc">Multi-region deployments, modules, and state management for global infrastructure.</span></a>
-          <a href="https://kubernetes.io/docs/home/" target="_blank" class="res-link"><span class="res-title">Kubernetes Documentation</span><span class="res-desc">Deployments, Services, Ingress, and health checks. Liveness/readiness probes are key.</span></a>
-          <a href="https://go.dev/doc/" target="_blank" class="res-link"><span class="res-title">Go Official Documentation</span><span class="res-desc">Goroutines, channels, and net/http for building the distributed backend.</span></a>
+      <div class="week-card">
+        <div class="week-num">Week 11</div><div class="week-title">Terraform + Kubernetes + Go + React</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+          <a href="https://developer.hashicorp.com/terraform/docs" target="_blank" class="res-link"><span class="res-title">Terraform Documentation</span><span class="res-desc">Multi-region deployments and state management.</span></a>
+          <a href="https://kubernetes.io/docs/home/" target="_blank" class="res-link"><span class="res-title">Kubernetes Documentation</span><span class="res-desc">Deployments, health checks, and liveness probes.</span></a>
+          <a href="https://go.dev/doc/" target="_blank" class="res-link"><span class="res-title">Go Official Documentation</span><span class="res-desc">Goroutines, channels, and net/http.</span></a>
         </div>
       </div>
-      <div style="border:1px solid var(--border);padding:1.5rem;background:rgba(0,255,157,0.02)">
-        <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin-bottom:.25rem">Week 12</p>
-        <p style="font-size:.78rem;color:var(--text);font-weight:700;margin-bottom:1rem">Inline Assembly + Rust + WASM + SolidJS</p>
-        <div style="display:flex;flex-direction:column;gap:.75rem">
-          <a href="https://doc.rust-lang.org/reference/inline-assembly.html" target="_blank" class="res-link"><span class="res-title">Rust Inline Assembly Reference</span><span class="res-desc">The asm! macro. Register constraints, clobbers, and options. One wrong move = crash.</span></a>
-          <a href="https://github.com/RustCrypto/asm-hashes" target="_blank" class="res-link"><span class="res-title">RustCrypto ASM Hashes</span><span class="res-desc">Assembly implementations of SHA-256 and SHA-512 in Rust. Study before writing your own.</span></a>
-          <a href="https://www.solidjs.com/docs/latest" target="_blank" class="res-link"><span class="res-title">SolidJS Documentation</span><span class="res-desc">Fine-grained reactivity without a virtual DOM. Ideal for performance-critical WASM UIs.</span></a>
+      <div class="week-card">
+        <div class="week-num">Week 12</div><div class="week-title">Inline Assembly + Rust + WASM + SolidJS</div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.75rem">
+          <a href="https://doc.rust-lang.org/reference/inline-assembly.html" target="_blank" class="res-link"><span class="res-title">Rust Inline Assembly Reference</span><span class="res-desc">The asm! macro. Register constraints and clobbers.</span></a>
+          <a href="https://github.com/RustCrypto/asm-hashes" target="_blank" class="res-link"><span class="res-title">RustCrypto ASM Hashes</span><span class="res-desc">Assembly SHA-256/SHA-512 in Rust. Study before writing your own.</span></a>
+          <a href="https://www.solidjs.com/docs/latest" target="_blank" class="res-link"><span class="res-title">SolidJS Documentation</span><span class="res-desc">Fine-grained reactivity for performance-critical WASM UIs.</span></a>
         </div>
       </div>
     </div>
-    <div style="margin-top:2rem;border:1px solid var(--border);padding:1.5rem;background:rgba(123,47,255,0.04)">
-      <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent2);text-transform:uppercase;margin-bottom:1rem">General ZK & Cryptography (Weeks 8 & 12)</p>
+    <div style="margin-top:2rem;border:1px solid var(--border);padding:1.5rem;background:rgba(123,47,255,.04)">
+      <p style="font-size:.62rem;letter-spacing:.25em;color:var(--accent2);text-transform:uppercase;margin-bottom:1rem">ZK & Cryptography Foundations (Weeks 8 & 12)</p>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.75rem">
-        <a href="https://vitalik.eth.limo/general/2019/09/22/plonk.html" target="_blank" class="res-link"><span class="res-title">Understanding PLONK � Vitalik</span><span class="res-desc">The definitive PLONK arithmetization post. Read before any ZK circuit work.</span></a>
-        <a href="https://docs.circom.io" target="_blank" class="res-link"><span class="res-title">Circom Documentation</span><span class="res-desc">Most widely used ZK circuit language. Good starting point before moving to Noir.</span></a>
-        <a href="https://semaphore.pse.dev/docs/introduction" target="_blank" class="res-link"><span class="res-title">Semaphore Protocol</span><span class="res-desc">Anonymous signalling on Ethereum. Reference for Week 8 private voting design.</span></a>
-        <a href="https://github.com/matter-labs/awesome-zero-knowledge-proofs" target="_blank" class="res-link"><span class="res-title">Awesome ZK Proofs</span><span class="res-desc">Curated list of every ZK paper, library, and tool. Maintained by the ZKsync team.</span></a>
-        <a href="https://cryptobook.nakov.com" target="_blank" class="res-link"><span class="res-title">Practical Cryptography for Developers</span><span class="res-desc">Free book. Elliptic curves, hashing, signatures � foundations behind all ZK work.</span></a>
-        <a href="https://dev.risczero.com/api" target="_blank" class="res-link"><span class="res-title">RISC Zero Developer Docs</span><span class="res-desc">Prove arbitrary Rust programs with zkVM. Alternative for Weeks 8 and 12.</span></a>
+        <a href="https://vitalik.eth.limo/general/2019/09/22/plonk.html" target="_blank" class="res-link"><span class="res-title">Understanding PLONK — Vitalik</span><span class="res-desc">The definitive PLONK arithmetization post.</span></a>
+        <a href="https://docs.circom.io" target="_blank" class="res-link"><span class="res-title">Circom Documentation</span><span class="res-desc">Most widely used ZK circuit language.</span></a>
+        <a href="https://semaphore.pse.dev/docs/introduction" target="_blank" class="res-link"><span class="res-title">Semaphore Protocol</span><span class="res-desc">Anonymous signalling. Reference for Week 8 voting.</span></a>
+        <a href="https://github.com/matter-labs/awesome-zero-knowledge-proofs" target="_blank" class="res-link"><span class="res-title">Awesome ZK Proofs</span><span class="res-desc">Every ZK paper, library, and tool. Maintained by ZKsync.</span></a>
+        <a href="https://cryptobook.nakov.com" target="_blank" class="res-link"><span class="res-title">Practical Cryptography for Devs</span><span class="res-desc">Free book. Elliptic curves, hashing, signatures.</span></a>
+        <a href="https://dev.risczero.com/api" target="_blank" class="res-link"><span class="res-title">RISC Zero Developer Docs</span><span class="res-desc">Prove arbitrary Rust programs with zkVM.</span></a>
       </div>
     </div>
   </div>
 </section>
 
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <p class="section-tag">FAQ</p>
+    <h2>Questions <span class="accent2">answered.</span></h2>
+    <div style="margin-top:2.5rem;display:flex;flex-direction:column;gap:1rem;max-width:780px">
+      <details class="faq-item"><summary>Do I need to know all 12 stacks before joining?</summary><p>No. You learn as you go. Each week you have 7 days to pick up the stack and build with it. The resources section has curated docs for every week. The challenge is the learning curve — that's the point.</p></details>
+      <details class="faq-item"><summary>Is this only for ZK/cryptography developers?</summary><p>No. Ghost Protocol is a fullstack hackathon. Only Weeks 8 and 12 involve ZK proofs. The other 10 weeks cover real-time systems, mobile, desktop, cloud infrastructure, and systems programming. Any serious fullstack developer can compete.</p></details>
+      <details class="faq-item"><summary>What do I submit each week?</summary><p>Three things: a PDF report documenting your approach and architecture, a GitHub repository with your code, and a YouTube demo video showing the system working end-to-end. All three are required for a complete submission.</p></details>
+      <details class="faq-item"><summary>What happens if I miss a week?</summary><p>You receive a score of zero for that round. Your cumulative score across all 12 rounds determines your final ranking. You can still submit in subsequent weeks — missing one round does not disqualify you.</p></details>
+      <details class="faq-item"><summary>How does the Team Code work?</summary><p>The team leader registers and pays. A unique Team Code is generated on their dashboard. They share this code with teammates. Each teammate registers separately with the same role type, then enters the code on their dashboard to join the team.</p></details>
+      <details class="faq-item"><summary>Can I use any stack for the application layer?</summary><p>Yes. The weekly stack constraint applies to the core challenge component. For supporting infrastructure, UI, or tooling, you can use whatever you are comfortable with. The judging focuses on the required stack implementation.</p></details>
+      <details class="faq-item"><summary>How are prizes paid out?</summary><p>Prize money is paid via bank transfer within 7 days of the final round results being verified by FLINN Software Labs. Winners will be contacted directly.</p></details>
+      <details class="faq-item"><summary>What if my payment went through but my dashboard is locked?</summary><p>Go to the pending payment page and click "Check Status". If still locked after a few minutes, contact FLINN Software Labs with your Paystack payment reference and we will resolve it.</p></details>
+      <details class="faq-item"><summary>Can students from any Nigerian university participate?</summary><p>Yes. Ghost Protocol is open to all Nigerian university students and recent graduates regardless of institution.</p></details>
+      <details class="faq-item"><summary>Is the registration fee refundable?</summary><p>No. Registration fees are non-refundable. Once payment is confirmed, your slot is secured for all 12 weeks.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="container">
+    <p class="section-tag">Call to Action</p>
+    <h2>12 weeks.<br><span class="accent">Build everything.</span></h2>
+    <p>Real stacks. Real problems. Real money. The most technically demanding fullstack hackathon in Nigeria starts July 1, 2026. Your slot is waiting.</p>
+    <a href="login.html" class="btn-primary">Onboard Now <span class="blink">_</span></a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 <span>FLINN Software Labs</span> · Ghost Protocol Fullstack Hackathon · All rights reserved.</p>
+  <p style="margin-top:.5rem">12 weeks. 12 stacks. One winner per track.</p>
+</footer>
+
+<script>
+  fetch('/api-leaderboard?type=stats')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      document.getElementById('count-lone').textContent   = d.lone   || 0;
+      document.getElementById('count-team4').textContent  = d.team_4 || 0;
+      document.getElementById('count-team10').textContent = d.team_10 || 0;
+    }).catch(function() {});
+</script>
+</body>
+</html>
